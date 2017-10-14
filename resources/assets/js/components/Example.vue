@@ -8,6 +8,9 @@
                     <div class="panel-body">
                         I'm an example component!666
                     </div>
+                    <div>
+                        6个屁啊，不6
+                    </div>
                 </div>
             </div>
         </div>
