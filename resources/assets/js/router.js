@@ -5,6 +5,10 @@ Vue.use(VueRouter)
 export default new VueRouter({
     saveScrollPosition: true,
     routes: [
-
+        {
+            name: "index",
+            path: '/test',
+            component: resolve =>void(require(['./Home.vue'], resolve))
+        },
     ]
 })

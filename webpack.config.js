@@ -227,7 +227,10 @@ module.exports.plugins = (module.exports.plugins || []).concat([
         jquery: 'jquery',
         'window.jQuery': 'jquery'
     }),
-
+    new plugins.CopyWebpackPlugin([
+        {from: 'resources/assets/img/', to: 'img'},
+        {from: 'resources/assets/sass/app.css', to: 'css/main.css'},
+    ]),
     new plugins.FriendlyErrorsWebpackPlugin(),
 
     new plugins.StatsWriterPlugin({
