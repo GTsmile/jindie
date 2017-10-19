@@ -11891,6 +11891,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -33102,7 +33105,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_vm._v("备选项")]), _vm._v(" "), _c('div', {
     staticClass: "panel-body"
-  }, [_vm._v("\n                    I'm an example component!666\n                ")])], 1)])])])
+  }, [_vm._v("\n                    I'm an example component!666\n                ")]), _vm._v(" "), _c('div', [_vm._v("\n                    6个屁啊，不6\n                ")])], 1)])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
