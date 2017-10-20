@@ -11,4 +11,10 @@
 |
 */
 
-Route::get('/', 'IndexController@index');
+include 'admin.php';
+
+Route::get('/', function () {
+    return view('index');
+});
+
+
