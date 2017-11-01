@@ -1,5 +1,7 @@
 <template>
-    
+    <div >
+		  2222
+    </div>
 </template>
 
 <script>
@@ -17,4 +19,5 @@ import Axios from 'axios'
 </script>
 
 <style scoped>
+
 </style>
