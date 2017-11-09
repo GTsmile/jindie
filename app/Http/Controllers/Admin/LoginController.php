@@ -2,16 +2,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use DB;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 class LoginController extends Controller{
-    public function check(Request $request){
-    	$where['loginid']=$request->input('username');
+    public function check(Request $request)
+    {
+    	$where['user']=$request->input('username');
     	$where['password']=md5($request->input('password'));
-        $select_rows = DB::table('system_users')->where($where)->first();
-        if($select_rows){
-        	return response()->json("true");
+        $result = Admin::check_login($where['user']);
+        if(!$result){
+            return responseToJson(1,'error','用户不存在');
+        }else if($result->user == $where['password']){
+            return responseToJson(0,'success','登陆成功');
         }
-    	return response()->json("false");
     }
 }

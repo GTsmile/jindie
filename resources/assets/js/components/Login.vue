@@ -42,7 +42,7 @@ import Axios from 'axios'
                 var username = this.formName.user;
                 var password = this.formName.password;
                 var self=this;
-                Axios.post('/check',{
+                axios.post('/login',{
                     'username':username,
                     'password':password
                 }).then(function(res){
