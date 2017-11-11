@@ -33611,7 +33611,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "el-dropdown-link userinfo-inner"
   }, [_c('img', {
     attrs: {
-      "src": "images/top.jpg"
+      "src": "/img/top.jpg"
     }
   }), _vm._v(" " + _vm._s(_vm.sysUserName))]), _vm._v(" "), _c('el-dropdown-menu', {
     attrs: {

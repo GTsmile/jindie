@@ -104,7 +104,7 @@ module.exports.module = {
             test: /\.(png|jpg|gif)$/,
             loader: 'file-loader',
             options: {
-                name: 'images/[name].[ext]?[hash]',
+                name: 'img/[name].[ext]?[hash]',
                 publicPath: '/'
             }
         },
@@ -228,8 +228,8 @@ module.exports.plugins = (module.exports.plugins || []).concat([
         'window.jQuery': 'jquery'
     }),
     new plugins.CopyWebpackPlugin([
-        {from: 'resources/assets/img/', to: 'img'},
-        {from: 'resources/assets/sass/app.css', to: 'css/main.css'},
+        {from: 'resources/assets/img', to: 'img'},
+        {from: 'resources/assets/sass/', to: 'css/'},
     ]),
     new plugins.FriendlyErrorsWebpackPlugin(),
 

@@ -55,7 +55,8 @@
                 var username = this.formName.user;
                 var password = this.formName.password;
                 var self=this;
-                axios.post('/check',{
+
+                axios.post('/login',{
                     'username':username,
                     'password':password
 
