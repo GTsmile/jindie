@@ -1,4 +1,4 @@
 <?php
 
-Route::post('/check','Admin\LoginController@check');
+Route::post('/check','\App\Http\Controllers\Admin\LoginController@check');
 

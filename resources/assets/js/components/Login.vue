@@ -1,32 +1,46 @@
 <template>
     <div class="loginPage">
-        <h1>登录</h1>
-        <el-form>
-            <el-form-item label="用户名">
-                <el-input type="text" id="user" v-model="formName.user" @blur="inputBlur('user',formName.user)"></el-input>
-                <p>{{formName.userError}}</p>
-            </el-form-item>
-            <el-form-item label="密码">
-                <el-input type="password" id="password" v-model="formName.password" @blur="inputBlur('password',formName.password)"></el-input>
-                <p>{{formName.passwordError}}</p>
-            </el-form-item>
-            <el-button type="primary" @click="submitForm('formName')">提交</el-button>
-            <el-button @click="resetForm">重置</el-button>
+        <h2>用户登录</h2>
+        <el-form class="loginFrom">
+
+            <el-input type="text" id="user" class="input" v-model="formName.user" @blur="inputBlur('user',formName.user)"
+                      placeholder="请输入用户名" icon="FontAwesome ion-person"></el-input>
+
+            <el-input type="password" id="password" class="input" v-model="formName.password" @blur="inputBlur('password',formName.password)"
+                      placeholder="请输入密码" icon="FontAwesome ion-key" v-on:click="showPassword()"></el-input>
+
+            <el-input type="text" id="checkCode" class="input" v-model="formName.checkCode" @blur="inputBlur('checkCode',formName.checkCode)"
+                      placeholder="验证码"></el-input>
+
+            <img  @click="getImg" alt="验证码" src="" title="刷新图片" width="100" height="40" id="img" border="0">
+
+
+            <div id="errorTrip">
+                {{formName.error}}
+            </div>
+
+            <div  class="loginButton">
+
+                <br>
+                <el-button type="primary" @click="submitForm('formName')" class="submit">提交</el-button>
+                <!--<el-button @click="resetForm">重置</el-button>-->
+            </div>
+
         </el-form>              
     </div>
 </template>
 
 <script>
-import Axios from 'axios'
     export default {
         name: '',
         data () {
             return {
                 formName: {//表单中的参数
                     user: '',
-                    userError: '',
+                    error: '',
                     password: '',
-                    passwordError: '',
+                    checkCode: '',
+
                 },
                 beShow: false//传值给父组件
             }           
@@ -34,71 +48,128 @@ import Axios from 'axios'
         methods: {
             resetForm:function(){
                 this.formName.user = '';
-                this.formName.userError = '';
+                this.formName.error = '';
                 this.formName.password = '';
-                this.formName.passwordError = '';
             },
             submitForm:function(formName){
                 var username = this.formName.user;
                 var password = this.formName.password;
                 var self=this;
-                Axios.post('/check',{
+                axios.post('/check',{
                     'username':username,
                     'password':password
-                }).then(function(res){
-                    if(res.data=="true"){
-                        console.log(res.data);
-                        self.$router.push('/admin');
-                    }
+
                 })
-                .catch(function(){
+                 .then(function(response){
+                     console.log(response.data);
+//                    if(response.data.code == 0){
+//                        self.$router.push('/admin');
+//                        console.log(response.data);
+//                    }
+                })
+                .catch(function(response){
 
                 })
             },
             inputBlur:function(errorItem,inputContent){
                 if (errorItem === 'user') {
                     if (inputContent === '') {
-                        this.formName.userError = '用户名不能为空'
+                        this.formName.error = '请输入用户名'
                     }else{
-                        this.formName.userError = '';
+                        this.formName.error = '';
                     }
-                }else if(errorItem === 'password') {
+                }else if(errorItem === 'password'){
                     if (inputContent === '') {
-                        this.formName.passwordError = '密码不能为空'
+                        this.formName.error = '请输入密码'
                     }else{
-                        this.formName.passwordError = '';
+                        this.formName.error = '';
+                    }
+                }else if(errorItem === 'checkCode'){
+                    if(inputContent === ''){
+                        this.formName.error = '请输入验证码'
+                    }else{
+                        this.formName.error = '';
                     }
                 }
+            },
+            getImg(){
+                axios.get('/index/captcha/'+Math.random())
+                .then(function(res){
+                    $("img").attr("src",res.data);
+                })
+                .catch(function(err){
+                    console.log(err);
+                 })
+            },
+            showPassword(){
+
             }
+        },
+        mounted(){
+            this.getImg();
         }
     }
 </script>
 
 <style scoped>
-    html,body{
+    body{
         margin: 0;
         padding: 0;
-        position: relative;
     }
     .dialog{
         width: 100%;
         height: 100%;
         background: rgba(0,0,0,.8);
     }
+
     .loginPage{
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-top: -230px;
-        margin-left: -175px;
+        display: flex;
+        flex-direction: column;
+        justify-content:center;
         width: 350px;
         min-height: 300px;
-        padding: 30px 20px 20px;
-        border-radius: 8px;
+        padding: 15px 30px 20px;
+        border-radius: 5px;
         box-sizing: border-box;
+        background-color: rgb(255,255,255);
+        opacity: 0.9;
+        -moz-box-shadow:2px 2px 11px #333333;
+        -webkit-box-shadow:2px 2px 11px #333333;
+        box-shadow:2px 2px 11px #333333;
     }
-    .loginPage p{
+    .loginPage h2{
+        align-self:center;
+    }
+
+    .loginPage .input{
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+    .loginPage .loginButton{
+        width: inherit;
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-around;
+    }
+    .loginPage .loginFrom{
+        position: relative;
+    }
+    .submit{
+        width: 100%;
+    }
+    #checkCode{
+        width: 160px;
+    }
+    #img{
+        border-radius: 5px;
+        position: absolute;
+        top: 110px;
+        right: 2px;
+    }
+    #errorTrip{
+        height: 6px;
+        padding-left: 10px;
         color: red;
-        text-align: left;
+
     }
 </style>
