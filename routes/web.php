@@ -16,6 +16,7 @@ include 'api.php';
 
 Route::post('/login','Admin\LoginController@check');
 Route::get('/login','Admin\LoginController@check');
+Route::post('/logout','Admin\LoginController@logout');
 
 Route::get('/', function () {
     return view('index');

@@ -8,7 +8,7 @@
 				<el-dropdown trigger="hover">
 					<span class="el-dropdown-link userinfo-inner"><img src="/img/top.jpg" /> {{sysUserName}}</span>
 					<el-dropdown-menu slot="dropdown">
-						<el-dropdown-item>我的消息</el-dropdown-item>
+						<!--<el-dropdown-item>我的消息</el-dropdown-item>-->
 						<el-dropdown-item>设置</el-dropdown-item>
 						<el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
 					</el-dropdown-menu>
@@ -97,8 +97,12 @@
 				this.$confirm('确认退出吗?', '提示', {
 					//type: 'warning'
 				}).then(() => {
-					sessionStorage.removeItem('user');
-					_this.$router.push('/login');
+				    axios.post('/logout',{}).then( res => {
+				        if(res.data.code == 0){
+							_this.$router.push('/login');
+						}
+					})
+					//sessionStorage.removeItem('user');
 				}).catch(() => {
 
 				});

@@ -46,10 +46,14 @@ import Axios from 'axios'
                     'username':username,
                     'password':password
                 }).then(function(res){
-                    if(res.data=="true"){
-                        console.log(res.data);
-                        self.$router.push('/admin');
+                    if(res.data.code == 0){
+                        self.$router.push('/')
                     }
+                    self.$message({
+                        message: res.data.result,
+                        type: res.data.msg,
+                        showClose: true
+                    });
                 })
                 .catch(function(){
 

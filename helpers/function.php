@@ -11,7 +11,7 @@ function responseToJson($code = 0 ,$msg = '', $result = null)
 function get_session_user_id()
 {
     $user = session('user');
-    return $user ? $user->user : 0;
+    return $user ? $user->id : 0;
 }
 
 function get_session_user()
