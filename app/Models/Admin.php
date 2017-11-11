@@ -7,7 +7,7 @@
  {
     public static function check_login($user)
     {
-        //$result = DB::table('system_users')->where('')->first();
         dump(132);
+        $result = DB::table('system_users')->where('')->first();
     }
  }
