@@ -1,4 +1,5 @@
 <?php
+
 //控制器统计返回数据格式
 function responseToJson($code = 0 ,$msg = '', $result = null)
 {

@@ -24,10 +24,6 @@
     #app{
         width: 100%;
         height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: url("/images/login_img1.jpg") no-repeat center center;
-        background-size:100%;
+
     }
 </style>
