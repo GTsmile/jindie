@@ -15,15 +15,17 @@ class LoginMiddleware
      */
     public function handle($request, Closure $next)
     {
-        dump(12345679);
         if(get_session_user_id()){
             return $next($request);
         } else {
-            //if($request->ajax()){
-             //   return response('没有权限',401)->header('X-SCRF-TOKEN',csrf_token());
-            //}else {
+            /*if ($request->ajax()) {
+                return response("Unauthorized.（未登录）", 401)->header("X-CSRF-TOKEN", csrf_token());
+            } else {
                 return redirect('/#/login');
-            //}
+            }*/
+            //return responseToJson(1,'error','还没有登录');
+            //return "</<script>window.location.href = '/#/login'</script>";
+            return redirect('/#/login');
         }
     }
 }

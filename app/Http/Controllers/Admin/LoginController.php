@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use Illuminate\Http\Request;
@@ -28,4 +27,5 @@ class LoginController extends Controller{
         session(null);
         return responseToJson(0,'success','退出成功');
     }
+
 }
