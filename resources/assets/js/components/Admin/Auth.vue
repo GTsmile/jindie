@@ -134,6 +134,7 @@ import Axios from 'axios'
         currentDBName: 0, //当前点击的列
         currentPositionId:0,//当前点击的行的职位id
         currentPositionName:"",//当前点击的行的职位id
+        currentDepartment:"",//当前点击的行的职位id
         selRoleIndex: [],   //当前穿梭框里选择的角色id
         centerDialogVisible: false, //是否弹出模态框
         currentPage: 1, //当前页（分页）
@@ -184,7 +185,8 @@ import Axios from 'axios'
             else this.selRoleIndex=$currentRoleIndex;
             this.currentDBName=$scope.column.label;
             this.currentPositionId=$scope.row.id;
-            this.currentPositionName=$scope.row.position,//当前点击的行的职位id
+            this.currentPositionName=$scope.row.position;//当前点击的行的职位id
+            this.currentDepartment=$scope.row.department;
             this.centerDialogVisible = true;
         },
         handleChange() {
@@ -198,11 +200,12 @@ import Axios from 'axios'
                     'selRoleIndex': vue.selRoleIndex,
                     'db': vue.currentDBName,
                     'currentPositionId': vue.currentPositionId,
-                    'currentPositionName': vue.currentPositionName
+                    'currentPositionName': vue.currentPositionName,
+                    'currentDepartment': vue.currentDepartment
                 })
                 .then(function (response) {
                     if(response.data=="true"){
-                        vue.getPositionUnit();
+                        vue.getPositionUnit(vue.currentPage,vue.pageSize);
                         // window.location.reload();
                     }
                 })

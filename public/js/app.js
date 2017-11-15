@@ -12323,13 +12323,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
 		return {
-			sysName: '后台管理',
+			sysName: '和协集团人员管理',
 			collapsed: false,
 			sysUserName: '',
 			sysUserAvatar: '',
@@ -33619,10 +33617,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "slot": "dropdown"
     },
     slot: "dropdown"
-  }, [_c('el-dropdown-item', [_vm._v("我的消息")]), _vm._v(" "), _c('el-dropdown-item', [_vm._v("设置")]), _vm._v(" "), _c('el-dropdown-item', {
-    attrs: {
-      "divided": ""
-    },
+  }, [_c('el-dropdown-item', {
     nativeOn: {
       "click": function($event) {
         _vm.logout($event)
