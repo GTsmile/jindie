@@ -14,12 +14,17 @@
 include 'admin.php';
 include 'api.php';
 
+Route::get('/', function () {
+    return view('Login');
+
+});
+
+Route::get('/captcha/{tmp}', 'Admin\LoginController@captcha');
+
 Route::post('/login','Admin\LoginController@check');
 Route::get('/login','Admin\LoginController@check');
 
-Route::get('/', function () {
-    return view('index');
-});
 Route::get('/index/captcha/{tmp}', 'Admin\LoginController@captcha');
+
 
 

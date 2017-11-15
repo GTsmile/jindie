@@ -14920,14 +14920,14 @@ exports.push([module.i, "@charset \"UTF-8\";.el-breadcrumb:after,.el-breadcrumb:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(16)();
-exports.push([module.i, "\n.container[data-v-0064e556] {\n  position: absolute;\n  top: 0px;\n  bottom: 0px;\n  width: 100%;\n}\n.container .header[data-v-0064e556] {\n    height: 60px;\n    line-height: 60px;\n    background: #20a0ff;\n    color: #fff;\n}\n.container .header .userinfo[data-v-0064e556] {\n      text-align: right;\n      padding-right: 35px;\n      float: right;\n}\n.container .header .userinfo .userinfo-inner[data-v-0064e556] {\n        cursor: pointer;\n        color: #fff;\n}\n.container .header .userinfo .userinfo-inner img[data-v-0064e556] {\n          width: 40px;\n          height: 40px;\n          border-radius: 20px;\n          margin: 10px 0px 10px 10px;\n          float: right;\n}\n.container .header .logo[data-v-0064e556] {\n      height: 60px;\n      font-size: 22px;\n      padding-left: 20px;\n      padding-right: 20px;\n      border-color: rgba(238, 241, 146, 0.3);\n      border-right-width: 1px;\n      border-right-style: solid;\n}\n.container .header .logo img[data-v-0064e556] {\n        width: 40px;\n        float: left;\n        margin: 10px 10px 10px 18px;\n}\n.container .header .logo .txt[data-v-0064e556] {\n        color: #fff;\n}\n.container .header .logo-width[data-v-0064e556] {\n      width: 230px;\n}\n.container .header .logo-collapse-width[data-v-0064e556] {\n      width: 60px;\n}\n.container .header .tools[data-v-0064e556] {\n      padding: 0px 23px;\n      width: 14px;\n      height: 60px;\n      line-height: 60px;\n      cursor: pointer;\n}\n.container .main[data-v-0064e556] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    position: absolute;\n    top: 60px;\n    bottom: 0px;\n    overflow: hidden;\n}\n.container .main aside[data-v-0064e556] {\n      -webkit-box-flex: 0;\n          -ms-flex: 0 0 230px;\n              flex: 0 0 230px;\n      width: 230px;\n}\n.container .main aside .el-menu[data-v-0064e556] {\n        height: 100%;\n}\n.container .main aside .collapsed[data-v-0064e556] {\n        width: 60px;\n}\n.container .main aside .collapsed .item[data-v-0064e556] {\n          position: relative;\n}\n.container .main aside .collapsed .submenu[data-v-0064e556] {\n          position: absolute;\n          top: 0px;\n          left: 60px;\n          z-index: 99999;\n          height: auto;\n          display: none;\n}\n.container .main .menu-collapsed[data-v-0064e556] {\n      -webkit-box-flex: 0;\n          -ms-flex: 0 0 60px;\n              flex: 0 0 60px;\n      width: 60px;\n}\n.container .main .menu-expanded[data-v-0064e556] {\n      -webkit-box-flex: 0;\n          -ms-flex: 0 0 230px;\n              flex: 0 0 230px;\n      width: 230px;\n}\n.container .main .content-container[data-v-0064e556] {\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1;\n      overflow-y: scroll;\n      padding: 20px;\n}\n.container .main .content-container .breadcrumb-container .title[data-v-0064e556] {\n        width: 200px;\n        float: left;\n        color: #475669;\n}\n.container .main .content-container .breadcrumb-container .breadcrumb-inner[data-v-0064e556] {\n        float: right;\n}\n.container .main .content-container .content-wrapper[data-v-0064e556] {\n        margin-top: 10px;\n        background-color: #fff;\n        box-sizing: border-box;\n}\n.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active[data-v-0064e556], .el-menu-item.is-active[data-v-0064e556] {\n  color: #20a0ff;\n}\n", ""]);
+exports.push([module.i, "\n.container[data-v-0064e556] {\n  position: absolute;\n  top: 0px;\n  bottom: 0px;\n  width: 100%;\n}\n.container .header[data-v-0064e556] {\n    height: 60px;\n    line-height: 60px;\n    background-color: #2173d0;\n    background-image: url(\"/img/nav.jpg\");\n}\n.container .header .userinfo[data-v-0064e556] {\n      text-align: right;\n      padding-right: 35px;\n      float: right;\n}\n.container .header .userinfo .userinfo-inner[data-v-0064e556] {\n        cursor: pointer;\n}\n.container .header .userinfo .userinfo-inner img[data-v-0064e556] {\n          width: 40px;\n          height: 40px;\n          border-radius: 20px;\n          margin: 10px 0px 10px 10px;\n          float: right;\n}\n.container .header .logo[data-v-0064e556] {\n      height: 60px;\n      font-size: 22px;\n      padding-left: 20px;\n      padding-right: 20px;\n      border-color: rgba(238, 241, 146, 0.3);\n      border-right-width: 1px;\n      border-right-style: solid;\n}\n.container .header .logo a[data-v-0064e556] {\n        color: #f1f1f1;\n        text-decoration: none;\n}\n.container .header .logo-width[data-v-0064e556] {\n      width: 230px;\n}\n.container .header .logo-collapse-width[data-v-0064e556] {\n      width: 60px;\n}\n.container .main[data-v-0064e556] {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    position: absolute;\n    top: 60px;\n    bottom: 0px;\n    overflow: hidden;\n}\n.container .main aside[data-v-0064e556] {\n      -webkit-box-flex: 0;\n          -ms-flex: 0 0 230px;\n              flex: 0 0 230px;\n      width: 230px;\n}\n.container .main aside .el-menu[data-v-0064e556] {\n        height: 100%;\n}\n.container .main aside .collapsed[data-v-0064e556] {\n        width: 60px;\n}\n.container .main aside .collapsed .item[data-v-0064e556] {\n          position: relative;\n}\n.container .main aside .collapsed .submenu[data-v-0064e556] {\n          position: absolute;\n          top: 0px;\n          left: 60px;\n          z-index: 99999;\n          height: auto;\n          display: none;\n}\n.container .main .menu-collapsed[data-v-0064e556] {\n      -webkit-box-flex: 0;\n          -ms-flex: 0 0 60px;\n              flex: 0 0 60px;\n      width: 60px;\n}\n.container .main .menu-expanded[data-v-0064e556] {\n      -webkit-box-flex: 0;\n          -ms-flex: 0 0 230px;\n              flex: 0 0 230px;\n      width: 230px;\n}\n.container .main .content-container[data-v-0064e556] {\n      -webkit-box-flex: 1;\n          -ms-flex: 1;\n              flex: 1;\n      overflow-y: scroll;\n      padding: 20px;\n}\n.container .main .content-container .breadcrumb-container .title[data-v-0064e556] {\n        width: 200px;\n        float: left;\n        color: #475669;\n}\n.container .main .content-container .breadcrumb-container .breadcrumb-inner[data-v-0064e556] {\n        float: right;\n}\n.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active[data-v-0064e556], .el-menu-item.is-active[data-v-0064e556] {\n  color: #1b3cff;\n}\n", ""]);
 
 /***/ }),
 /* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(16)();
-exports.push([module.i, "\n#app{\n    width: 100%;\n    height: 100%;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: center;\n        -ms-flex-pack: center;\n            justify-content: center;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    background: url(\"/images/login_img1.jpg\") no-repeat center center;\n    background-size:100%;\n}\n", ""]);
+exports.push([module.i, "\n#app{\n    width: 100%;\n    height: 100%;\n}\n", ""]);
 
 /***/ }),
 /* 160 */
@@ -33521,7 +33521,11 @@ var Component = __webpack_require__(51)(
   /* cssModules */
   null
 )
+<<<<<<< HEAD
+Component.options.__file = "C:\\Users\\lenovo\\jindie\\resources\\assets\\js\\Home.vue"
+=======
 Component.options.__file = "E:\\Apache24\\htdocs\\jd\\jindie\\resources\\assets\\js\\Home.vue"
+>>>>>>> c24e76b7de262c0c48fa25870c155152fe22cb54
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Home.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -33559,7 +33563,11 @@ var Component = __webpack_require__(51)(
   /* cssModules */
   null
 )
+<<<<<<< HEAD
+Component.options.__file = "C:\\Users\\lenovo\\jindie\\resources\\assets\\js\\components\\Admin\\Base.vue"
+=======
 Component.options.__file = "E:\\Apache24\\htdocs\\jd\\jindie\\resources\\assets\\js\\components\\Admin\\Base.vue"
+>>>>>>> c24e76b7de262c0c48fa25870c155152fe22cb54
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Base.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -33597,7 +33605,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "span": 10
     }
-  }, [_vm._v("\n\t\t\t" + _vm._s(_vm.collapsed ? '' : _vm.sysName) + "\n\t\t")]), _vm._v(" "), _c('el-col', {
+  }, [_c('a', {
+    attrs: {
+      "href": "/"
+    }
+  }, [_vm._v(_vm._s(_vm.collapsed ? '' : _vm.sysName))])]), _vm._v(" "), _c('el-col', {
     staticClass: "userinfo",
     attrs: {
       "span": 4
@@ -33690,7 +33702,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, _vm._l((_vm.$route.matched), function(item) {
     return _c('el-breadcrumb-item', {
       key: item.path
-    }, [_vm._v("\n\t\t\t\t\t\t\t" + _vm._s(item.name) + "\n\t\t\t\t\t\t")])
+    }, [_vm._v("\n\t\t\t\t\t\t\t\t" + _vm._s(item.name) + "\n\t\t\t\t\t\t\t")])
   }))], 1), _vm._v(" "), _c('el-col', {
     staticClass: "content-wrapper",
     attrs: {
