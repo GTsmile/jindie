@@ -138,14 +138,12 @@
 			line-height: 60px;
 			background-color: $color-primary;
             background-image: url("/img/nav.jpg");
-			/*color:#fff;*/
 			.userinfo {
 				text-align: right;
 				padding-right: 35px;
 				float: right;
 				.userinfo-inner {
 					cursor: pointer;
-					/*color:#fff;*/
 					img {
 						width: 40px;
 						height: 40px;
@@ -156,7 +154,6 @@
 				}
 			}
 			.logo {
-				//width:230px;
 				height:60px;
 				font-size: 22px;
 				padding-left:20px;
@@ -164,14 +161,6 @@
 				border-color: rgba(238,241,146,0.3);
 				border-right-width: 1px;
 				border-right-style: solid;
-				/*img {*/
-					/*width: 40px;*/
-					/*float: left;*/
-					/*margin: 10px 10px 10px 18px;*/
-				/*}*/
-				/*.txt {*/
-					/*color:#fff;*/
-				/*}*/
                 a{
                     color: #f1f1f1;
                     text-decoration: none;
@@ -183,17 +172,9 @@
 			.logo-collapse-width{
 				width:60px
 			}
-			/*.tools{*/
-				/*padding: 0px 23px;*/
-				/*width:14px;*/
-				/*height: 60px;*/
-				/*line-height: 60px;*/
-				/*cursor: pointer;*/
-			/*}*/
 		}
 		.main {
 			display: flex;
-			 /*background: #324057;*/
 			position: absolute;
 			top: 60px;
 			bottom: 0px;
@@ -201,9 +182,6 @@
 			aside {
 				flex:0 0 230px;
 				width: 230px;
-				// position: absolute;
-				// top: 0px;
-				// bottom: 0px;
 				.el-menu{
 					height: 100%;
 				}
@@ -233,15 +211,9 @@
             }
 			.content-container {
 				flex:1;
-				// position: absolute;
-				// right: 0px;
-				// top: 0px;
-				// bottom: 0px;
-				// left: 230px;
 				overflow-y: scroll;
 				padding: 20px;
 				.breadcrumb-container {
-					//margin-bottom: 15px;
 					.title {
 						width: 200px;
 						float: left;
@@ -251,11 +223,6 @@
 						float: right;
 					}
 				}
-				/*.content-wrapper {*/
-                     /*margin-top: 10px;*/
-                    /*background-color: #fff;*/
-                    /*box-sizing: border-box;*/
-                    /*}*/
             }
 		}
 	}
