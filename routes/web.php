@@ -14,13 +14,12 @@
 include 'admin.php';
 include 'api.php';
 
-Route::post('/login','Admin\LoginController@check');
-Route::get('/login','Admin\LoginController@check');
+Route::post('/check','Admin\LoginController@check');
+Route::get('/check','Admin\LoginController@check');
 Route::post('/logout','Admin\LoginController@logout');
+Route::get('/test','Admin\LoginController@test');
 
 Route::get('/', function () {
     return view('index');
 });
-Route::group(['middleware' => 'login.check'],function (){
 
-});

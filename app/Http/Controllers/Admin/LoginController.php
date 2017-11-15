@@ -27,5 +27,8 @@ class LoginController extends Controller{
         session(null);
         return responseToJson(0,'success','退出成功');
     }
-
+    public function test()
+    {
+        
+    }
 }
