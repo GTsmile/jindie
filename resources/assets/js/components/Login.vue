@@ -30,7 +30,7 @@
     </div>
 </template>
 
-<script>
+<script> 
     export default {
         name: '',
         data () {
@@ -94,8 +94,9 @@
                 }
             },
             getImg(){
-                axios.get('/index/captcha/'+Math.random())
+                axios.get('index/captcha/'+Math.random())
                 .then(function(res){
+                    console.log(res.data)
                     $("img").attr("src",res.data);
                 })
                 .catch(function(err){

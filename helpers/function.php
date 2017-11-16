@@ -6,6 +6,8 @@ function responseToJson($code = 0 ,$msg = '', $result = null)
     $res['msg'] = $msg;
     $res['result'] = $result;
     return response()->json($res);
+
+
 }
 //返回session_id
 function get_session_user_id()

@@ -18,8 +18,9 @@ Route::post('/login','Admin\LoginController@check');
 Route::get('/login','Admin\LoginController@check');
 
 Route::get('/', function () {
-    return view('index');
+    return view('Login');
+
 });
-Route::get('/index/captcha/{tmp}', 'Admin\LoginController@captcha');
+Route::get('/captcha/{tmp}', 'Admin\LoginController@captcha');
 
 
