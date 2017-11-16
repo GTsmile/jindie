@@ -19,7 +19,21 @@ Route::get('/check','Admin\LoginController@check');
 Route::post('/logout','Admin\LoginController@logout');
 Route::get('/test','Admin\LoginController@test');
 
-Route::get('/', function () {
-    return view('index');
+Route::get('/login', function () {
+    return view('login');
 });
+Route::group(['middleware' => 'login.check'],function (){
+    Route::get('/', function () {
+        return view('index');
+    });
+});
+
+Route::group(['middleware' => 'login.check'],function (){
+});
+Route::get('/captcha/{tmp}', 'Admin\LoginController@captcha');
+/*Route::post('/login','Admin\LoginController@check');
+Route::get('/login','Admin\LoginController@check');*/
+Route::get('/index/captcha/{tmp}', 'Admin\LoginController@captcha');
+
+
 

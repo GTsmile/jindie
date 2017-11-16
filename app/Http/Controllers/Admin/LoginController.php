@@ -2,23 +2,31 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use DB;
 use App\Models\Admin;
 use Illuminate\Http\Request;
-class LoginController extends Controller{
+use Illuminate\Support\Facades\Session;
+
+class LoginController extends Controller
+{
     public function check(Request $request)
     {
-    	$where['user']=$request->input('username');
-    	$where['password']=md5($request->input('password'));
-        $result = Admin::check_login($where['user']);
-        if(!$result){
-            return responseToJson(1,'error','用户不存在');
-        }else if($result->password == $where['password']){
-            session('user',$result);
-            return responseToJson(0,'success','登陆成功');
-        }else if($result->password != $where['password']){
-            return responseToJson(1,'error','密码错误');
-        }else {
-            return responseToJson(2,'error','用户名不存在');
+        $rules = ['checkCode' => 'required|captcha'];
+        $validator = \Validator::make($request->all(), $rules,['captcha'=>"验证码错误"]);
+
+        if (!$validator->fails()) {
+            //用户输入验证码正确
+            $where['loginid'] = $request->input('username');
+            $where['password'] = md5($request->input('password'));
+            $select_rows = DB::table('system_users')->where($where)->first();
+            dump($select_rows);
+            if ($select_rows) {
+                return responseToJson(0, "success", 'true');
+            }
+            return responseToJson(1, "error", 'false');
+        } else {
+            //用户输入验证码错误
+            return responseToJson(2, "checkCodeError", 'false');
         }
 
     }
@@ -26,6 +34,11 @@ class LoginController extends Controller{
     {
         session(null);
         return responseToJson(0,'success','退出成功');
+    }
+
+    public function captcha($tmp)
+    {
+        return captcha_src("flat");
     }
     public function test()
     {

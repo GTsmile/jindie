@@ -26,6 +26,11 @@ Route::group(['middleware' => 'login.check'],function (){
     Route::get('/getRole','Api\IndexController@getRole');
 
     Route::post('/getRole','Api\IndexController@getRole');
+    Route::any('/getPositionUnit','Api\IndexController@getPositionUnit');
+
+    Route::any('/updateRole','Api\IndexController@updateRole');
 });
+
+
 
 

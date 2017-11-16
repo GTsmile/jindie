@@ -14,6 +14,17 @@
           label="部门">
         </el-table-column>
       </el-table>
+      <div class="block">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-sizes="[10, 20, 30, 40]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
     </div>
 </template>
 
@@ -22,7 +33,10 @@ import Axios from 'axios'
    export default {
     data() {
       return {
-        tableData: []
+        tableData: [],
+        currentPage: 1,
+        pageSize: 10,
+        total:100
       }
     },
      methods: {
@@ -32,13 +46,25 @@ import Axios from 'axios'
         handleDelete(index, row) {
           console.log(index, row);
         },
-        getUser: function() {
+        handleSizeChange(val) {
+          console.log(`每页 ${val} 条`);
+          this.getUser(this.currentPage,val); 
+        },
+        handleCurrentChange(val) {
+          console.log(`当前页: ${val}`);
+          this.getUser(val,this.pageSize); 
+        },
+        getUser: function($currentPage,$pageSize) {
             var vue=this;
             this.$nextTick(function () {
-                axios.post('/getUser', {})
+                axios.post('/getUser', {
+                  'currentPage': $currentPage,
+                  'pageSize': $pageSize
+                })
                 .then(function (response) {
-                   vue.tableData=response.data;
-                   console.log(vue.tableData);
+                   console.log(response.data);
+                   vue.tableData=response.data.select_row;
+                   vue.total=response.data.userCount;
                 })
                 .catch(function (response) {
                     console.log(response);
@@ -47,11 +73,14 @@ import Axios from 'axios'
         },
      },
      mounted: function(){
-       this.getUser();
+       this.getUser(1,10);
      }
     }
 </script>
 
 <style scoped>
-
+.block{
+  padding-top: 10px;
+  text-align: center;
+}
 </style>

@@ -21,11 +21,9 @@ class LoginMiddleware
             /*if ($request->ajax()) {
                 return response("Unauthorized.（未登录）", 401)->header("X-CSRF-TOKEN", csrf_token());
             } else {
-                return redirect('/#/login');
+                return redirect('/login');
             }*/
-            //return responseToJson(1,'error','还没有登录');
-            //return "</<script>window.location.href = '/#/login'</script>";
-            return redirect('/#/login');
+            return redirect('/login');
         }
     }
 }
