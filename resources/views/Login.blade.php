@@ -79,13 +79,9 @@
                 <tr><td><input type="button" name="submit" value="登录" class="in" id="submit" onclick="submitForm()"></td></tr>
                 <tr><td>{{csrf_field()}}</td></tr>
             </table>
-
         </form>
    </div>
-
-
 </body>
-
 <script>
     $.ajaxSetup({
         headers: {
@@ -106,7 +102,10 @@
                     },
                 dataType: "json",
                 success:function (response) {
+                if(response.data.code==0){
                     window.location.reload()
+                }else {}
+
                 },
                 error:function (response) {
                     console.log(11)
