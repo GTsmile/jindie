@@ -4,12 +4,13 @@
             <el-transfer v-model="selRoleIndex" :data="roles" width="100%"></el-transfer>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="centerDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>
+                <el-button type="primary" @click="handleChange();">确 定</el-button>
             </span>
         </el-dialog>
 		<el-table
             :data="tableData"
-            style="width: 100%">
+            style="width: 100%"
+            @expand="handleCurrentc()">
             <el-table-column
             label="部门">
             <template slot-scope="scope">
@@ -20,7 +21,7 @@
             label="职位">
             <template slot-scope="scope">
                 <el-popover trigger="hover" placement="top">
-                <p>职位: {{ scope.row.position }}</p>
+                <p :data="scope.row.id">职位: {{ scope.row.position }}</p>
                 <div slot="reference" class="name-wrapper">
                     <el-tag size="medium">{{ scope.row.position }}</el-tag>
                 </div>
@@ -29,15 +30,16 @@
             </el-table-column>
             <el-table-column label="OA">
             <template slot-scope="scope">
-                <el-tag
-                    :key="tag.id"
-                    v-for="tag in selRole"
-                    closable
-                    :disable-transitions="false"
-                    @close="handleClose(tag)">
-                    {{tag.name}}
-                </el-tag>
-                <el-button class="button-new-tag" size="small" @click="centerDialogVisible = true"><i class="el-icon-edit"></i></el-button>
+                    <span :key="index1" v-for="(t,index1) in roleOA">
+                        <el-tag
+                        :disable-transitions="false"
+                        v-if="tag == t.key"
+                        :key="index" v-for="(tag,index)  in scope.row.oa_role_id"
+                        >
+                        {{ roleOA[index1].label }}
+                        </el-tag>
+                    </span>
+                <el-button class="button-new-tag" size="small" @click="modelShow(roleOA,scope,scope.row.oa_role_id)"><i class="el-icon-edit"></i></el-button>
             </template>
             </el-table-column>
             <el-table-column label="HR">
@@ -50,7 +52,7 @@
                     @close="handleClose(tag)">
                     {{tag.name}}
                 </el-tag>
-                <el-button class="button-new-tag" size="small" @click="centerDialogVisible = true"><i class="el-icon-edit"></i></el-button>
+                <el-button class="button-new-tag" size="small" @click="modelShow(roleHR,scope,scope.row.hr_role_id)"><i class="el-icon-edit"></i></el-button>
             </template>
             </el-table-column>
             <el-table-column label="ERP">
@@ -63,7 +65,33 @@
                     @close="handleClose(tag)">
                     {{tag.name}}
                 </el-tag>
-                <el-button class="button-new-tag" size="small" @click="centerDialogVisible = true"><i class="el-icon-edit"></i></el-button>
+                <el-button class="button-new-tag" size="small" @click="modelShow(roleERP,scope,scope.row.erp_role_id)"><i class="el-icon-edit"></i></el-button>
+            </template>
+            </el-table-column>
+            <el-table-column label="CRM">
+            <template slot-scope="scope">
+                <el-tag
+                    :key="tag.id"
+                    v-for="tag in selRole"
+                    closable
+                    :disable-transitions="false"
+                    @close="handleClose(tag)">
+                    {{tag.name}}
+                </el-tag>
+                <el-button class="button-new-tag" size="small" @click="modelShow(roleCRM,scope,scope.row.crm_role_id)"><i class="el-icon-edit"></i></el-button>
+            </template>
+            </el-table-column>
+            <el-table-column label="SCM">
+            <template slot-scope="scope">
+                <el-tag
+                    :key="tag.id"
+                    v-for="tag in selRole"
+                    closable
+                    :disable-transitions="false"
+                    @close="handleClose(tag)">
+                    {{tag.name}}
+                </el-tag>
+                <el-button class="button-new-tag" size="small" @click="modelShow(roleSCM,scope,scope.row.scm_role_id)"><i class="el-icon-edit"></i></el-button>
             </template>
             </el-table-column>
             <el-table-column label="PLM">
@@ -76,10 +104,21 @@
                     @close="handleClose(tag)">
                     {{tag.name}}
                 </el-tag>
-                <el-button class="button-new-tag" size="small" @click="centerDialogVisible = true"><i class="el-icon-edit"></i></el-button>
+                <el-button class="button-new-tag" size="small" @click="modelShow(rolePLM,scope,scope.row.plm_role_id)"><i class="el-icon-edit"></i></el-button>
             </template>
             </el-table-column>
         </el-table>
+        <div class="block">
+            <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[10, 20, 30, 40]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -88,49 +127,35 @@ import Axios from 'axios'
    export default {
     data() {
       return {
-        tableData: [{
-          department: '人力资源部',
-          position: '部长',
-        }, {
-          department: '人力资源部',
-          position: '部长',
-        }, {
-          department: '人力资源部',
-          position: '部长',
-        }, {
-          department: '人力资源部',
-          position: '部长',
-        }],
-        roles: [],
-        value10: [],
-        selRole: [
-            {
-                id : 1,
-                name: "111111"
-            },
-            {   
-                id : 2,
-                name: "222222"
-            },
-            {
-                id : 3,
-                name: "333"
-            },
-            {
-                id : 4,
-                name: "444"
-            },
-            {
-                id : 5,
-                name: "555"
-            },
-        ],
-        selRoleIndex: [],
-        centerDialogVisible: false,
+        tableData: [],      //table数据
+        roles: [],          //当前弹出模态框显示数据（角色）
+        value10: [],        
+        selRole: [],        //每个数据库对应职位当前的角色信息
+        currentDBName: 0, //当前点击的列
+        currentPositionId:0,//当前点击的行的职位id
+        currentPositionName:"",//当前点击的行的职位id
+        selRoleIndex: [],   //当前穿梭框里选择的角色id
+        centerDialogVisible: false, //是否弹出模态框
+        currentPage: 1, //当前页（分页）
+        pageSize: 10,   //每页的大小
+        total:100,      //分页总条数
+        roleOA:[],      //存储OA系统的角色数据
+        roleHR:[],
+        roleERP:[],
+        roleCRM:[],
+        roleSCM:[],
+        rolePLM:[],
+        roleOAIndex:[],      //存储OA系统的角色数据
+        roleHRIndex:[],
+        roleERPIndex:[],
+        roleCRMIndex:[],
+        roleSCMIndex:[],
+        rolePLMIndex:[],
       }
     },
     mounted :function(){
-         this.getUser();
+         this.getRole();
+         this.getPositionUnit(1,10);
     },
     methods: {
         handleEdit(index, row) {
@@ -142,17 +167,77 @@ import Axios from 'axios'
         handleClose(tag) {
             this.selRole.splice(this.selRole.indexOf(tag), 1);
         },
-        getUser: function() {
+        handleSizeChange(val) {
+            console.log(`每页 ${val} 条`);
+            this.getPositionUnit(this.currentPage,val); 
+        },
+        handleCurrentChange(val) {
+          console.log(`当前页: ${val}`);
+          this.getPositionUnit(val,this.pageSize);
+        },
+        handleCurrentc(row, expanded){
+            console.log(row);
+        },
+        modelShow($currentRole,$scope,$currentRoleIndex) {
+            this.roles=$currentRole;
+            if($currentRoleIndex==null||$currentRoleIndex=="") this.selRoleIndex=[];
+            else this.selRoleIndex=$currentRoleIndex;
+            this.currentDBName=$scope.column.label;
+            this.currentPositionId=$scope.row.id;
+            this.currentPositionName=$scope.row.position,//当前点击的行的职位id
+            this.centerDialogVisible = true;
+        },
+        handleChange() {
+            this.centerDialogVisible = false;
+            this.updateRole();
+        },
+        updateRole: function() {
+            var vue=this;
+            this.$nextTick(function () {
+                axios.post('/updateRole', {
+                    'selRoleIndex': vue.selRoleIndex,
+                    'db': vue.currentDBName,
+                    'currentPositionId': vue.currentPositionId,
+                    'currentPositionName': vue.currentPositionName
+                })
+                .then(function (response) {
+                    if(response.data=="true"){
+                        vue.getPositionUnit();
+                        // window.location.reload();
+                    }
+                })
+                .catch(function (response) {
+                    console.log(response.data);
+                });
+            })
+        },
+        getRole: function() {
             var vue=this;
             this.$nextTick(function () {
                 axios.post('/getRole', {})
                 .then(function (response) {
-                    for (let role in response.data) {
-                        vue.roles.push({
-                            key: response.data[role].id,
-                            label: response.data[role].name,
+                    for (let role in response.data.roleOA) {
+                        vue.roleOA.push({
+                            key: response.data.roleOA[role].id,
+                            label: response.data.roleOA[role].name,
                         });
                     }
+                })
+                .catch(function (response) {
+                    console.log(response.data);
+                });
+            })
+        },
+        getPositionUnit: function($currentPage,$pageSize) {
+            var vue=this;
+            this.$nextTick(function () {
+                axios.post('/getPositionUnit', {
+                    'currentPage': $currentPage,
+                    'pageSize': $pageSize
+                })
+                .then(function (response) {
+                    vue.tableData=response.data.select_row;
+                    vue.total=response.data.positionCount;
                 })
                 .catch(function (response) {
                     console.log(response);
@@ -184,5 +269,9 @@ vertical-align: bottom;
 <style>
 .el-dialog--small{
     width: auto;
+}
+.block{
+  padding-top: 10px;
+  text-align: center;
 }
 </style>

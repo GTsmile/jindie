@@ -85,6 +85,16 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
         ],
+
+        'pm' => [
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST', 'localhost'),
+            'database' => env('DB_DATABASE3', 'people_mgr'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+        ],
     ],
 
     /*

@@ -1,5 +1,5 @@
 <?php
-Route::group(['middleware' => 'login.check'],function (){
-    //Route::post('/check','Admin\LoginController@check');
-});
+    Route::group(['middleware' => 'login.check'],function (){
+        Route::post('/check','\Admin\LoginController@check');
+    });
 
