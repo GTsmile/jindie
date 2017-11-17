@@ -32,7 +32,7 @@
     </div>
 </template>
 
-<script> 
+<script>
     export default {
         name: '',
         data () {
@@ -44,7 +44,7 @@
                     checkCode: ''
                 },
                 beShow: false//传值给父组件
-            }           
+            }
         },
         methods: {
             inputBlur:function(flag){

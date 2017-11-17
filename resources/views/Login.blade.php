@@ -9,7 +9,7 @@
     <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
     <title>人员管理系统登录</title>
     <style>
-        .form{
+        .login_div{
             width:500px ;
             height:400px;
             background-color: #fff;
@@ -17,68 +17,76 @@
             margin: 0 auto;
             margin-top: 8%;
             box-shadow: 1px 1px 1px 1px #cccccc;
+
         }
         .in{
             height: 35px;
             margin: 7px;
-            width: 60%;
+            width: 100%;
             padding-left: 5px;
             border-radius: 5px;
             border: 1px solid #cccccc;
         }
         form{
+            width: 323px;
             text-align: center;
-            padding: 10px 0;
-        }
-        table{
-            margin: 0 auto;
-            width: 100%;
+            padding: 20px 0;
         }
         #submit{
             background-color:RGB(56,121,217);
+            height: 40px;
+            font-size: 17px;
         }
         .captcha{
-            margin: 0;
-            height: 30px;
+            float: left;
+            height: 34px;
             margin: 5px 0;
             padding-left: 5px;
-            width: 39%;
+            width: 61%;
             border-radius: 5px;
             border: 1px solid #cccccc;
+            margin: 7px;
         }
         #Captcha_img{
-            margin-bottom: -12px;
+            margin-top: 8px;
             border-radius: 4px
         }
-        #code_A{
-            width: 100px;
+        *{
+            margin: 0 auto;
         }
+        .point{
+            height: 21px;
+            float: left;
+            margin-left: 10px;
+            color: red;
+        }
+
     </style>
 </head>
 <body>
-   <div class="form">
-        <form  >
-               <h1>系统登录</h1>
-            <table>
-                <tr>
-                    <td>
-                        <input type="text" name="username" id="name"  placeholder="用户名" class="in" value="" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                    <input type="text" name="password" id="password"  placeholder="密码" class="in" value="" required>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="text" name="Captcha" class="captcha" id="Captcha">
-                        <a id="code_A"><img src="http://cgz.marchsoft.cn/captcha/1"id="Captcha_img"></a>
-                    </td>
-                </tr>
-                <tr><td><input type="button" name="submit" value="登录" class="in" id="submit" onclick="submitForm()"></td></tr>
-                <tr><td>{{csrf_field()}}</td></tr>
-            </table>
+   <div class="login_div">
+        <form>
+            <h1>系统登录</h1>
+
+            <p>
+                <input type="text" name="username" id="name"  placeholder="请输入用户名" class="in" value="" required="required"/>
+            </p>
+            <p class="point"></p>
+            <p>
+                <input type="text" name="password" id="password"  placeholder="请输入密码" class="in" value="" required>
+            </p>
+           <p class="point"></p>
+            <div style="clear: both"></div>
+            <p >
+                <input type="text" name="Captcha" class="captcha" placeholder="请输入验证码"id="Captcha" required>
+                <a id="code_A"><img src="http://cgz.marchsoft.cn/captcha/1"id="Captcha_img"></a>
+            </p>
+            <div style="clear: both"></div>
+            <p class="point"></p>
+            <p>
+                <input type="button" name="submit" value="登录" class="in" id="submit" onclick="submitForm()">
+            </p>
+            <p>{{csrf_field()}}</p>
         </form>
    </div>
 </body>

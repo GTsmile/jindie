@@ -15,8 +15,7 @@ include 'admin.php';
 include 'api.php';
 
 Route::get('/', function () {
-    return view('Login');
-
+    return view('login');
 });
 
 Route::get('/captcha/{tmp}', 'Admin\LoginController@captcha');
