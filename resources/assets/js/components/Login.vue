@@ -34,6 +34,7 @@
 
 <script>
     export default {
+
         name: '',
         data () {
             return {
@@ -69,31 +70,19 @@
                 var checkCode = this.formName.checkCode;
 
                 var self=this;
-
-                if(this.inputBlur(1)){
-                    var this_ = this;
-                    axios.post('/login',{
-                        'username':username,
-                        'password':password,
-                        'checkCode':checkCode,
-                    })
-                    .then(function(response){
-                        if(response.data.code == 2){    //验证码错误
-
-                            this_.inputBlur(2);
-                        }else if(response.data.code == 1){  //账号或密码错误
-
-                            this_.inputBlur(3);
-                        }else if(response.data.code == 0){
-
-                            self.$router.push('/');
-                            console.log(response.data);
-                        }
-                    })
-                    .catch(function(response){
-                        console.log(response)
-                    })
-                }
+                axios.post('/login',{
+                    'username':username,
+                    'password':password
+                }).then(function(res){
+                    if(res.data.code == 0){
+                        self.$router.push('/')
+                    }
+                    self.$message({
+                        message: res.data.result,
+                        type: res.data.msg,
+                        showClose: true
+                    });
+                })
             },
             getImg(){
                 axios.get('index/captcha/'+Math.random())

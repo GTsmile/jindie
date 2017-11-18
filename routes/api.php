@@ -17,17 +17,20 @@
 //     return $request->user();
 // });
 
+Route::group(['middleware' => 'login.check'],function (){
+    //Route::post('/check','Admin\LoginController@check');
+    Route::get('/getUser','Api\IndexController@getUser');
 
-Route::get('/getUser','Api\IndexController@getUser');
+    Route::post('/getUser','Api\IndexController@getUser');
 
-Route::post('/getUser','Api\IndexController@getUser');
+    Route::get('/getRole','Api\IndexController@getRole');
 
-Route::get('/getRole','Api\IndexController@getRole');
+    Route::post('/getRole','Api\IndexController@getRole');
+    Route::any('/getPositionUnit','Api\IndexController@getPositionUnit');
 
-Route::post('/getRole','Api\IndexController@getRole');
+    Route::any('/updateRole','Api\IndexController@updateRole');
+});
 
-Route::any('/getPositionUnit','Api\IndexController@getPositionUnit');
 
-Route::any('/updateRole','Api\IndexController@updateRole');
 
 

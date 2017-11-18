@@ -3,8 +3,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use DB;
-use Dotenv\Validator;
-use Gregwar\Captcha\CaptchaBuilder;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -21,6 +19,7 @@ class LoginController extends Controller
             $where['loginid'] = $request->input('username');
             $where['password'] = md5($request->input('password'));
             $select_rows = DB::table('system_users')->where($where)->first();
+            dump($select_rows);
             if ($select_rows) {
                 return responseToJson(0, "success", 'true');
             }
@@ -29,11 +28,20 @@ class LoginController extends Controller
             //用户输入验证码错误
             return responseToJson(2, "checkCodeError", 'false');
         }
+
+    }
+    public function logout(Request $request)
+    {
+        session(null);
+        return responseToJson(0,'success','退出成功');
     }
 
     public function captcha($tmp)
     {
         return captcha_src("flat");
     }
+    public function test()
+    {
 
+    }
 }

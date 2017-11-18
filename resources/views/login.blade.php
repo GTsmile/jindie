@@ -23,6 +23,16 @@
             margin-top: 9%;
             margin-left: 37%;
 
+
+        }
+        .form input{
+            margin-top: 16px;
+        }
+        .form h1{
+            margin: 0;
+        }
+        .form span{
+            font-size: 12px;
         }
         .in{
             height: 35px;
@@ -267,4 +277,36 @@
        }
    </script>
 </body>
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $("#code_A").click(function(){
+        $("#Captcha_img").attr("src","http://cgz.marchsoft.cn/captcha/"+Math.random());
+    });
+    function submitForm() {
+        $.ajax(
+            {   type: "POST",
+                url:"/check",
+                data:{
+                    "username":$("#name").val(),
+                    "password":$("#password").val(),
+                    "checkcode":$("#Captcha").val(),
+                    },
+                dataType: "json",
+                success:function (response) {
+                if(response.data.code==0){
+                    window.location.reload()
+                }else {}
+
+                },
+                error:function (response) {
+                    console.log(11)
+                }
+            })
+    }
+</script>
 </html>
