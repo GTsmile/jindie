@@ -7,16 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+
     <title>人员管理系统登录</title>
     <style>
         .login_div{
             width:500px ;
             height:400px;
-            background-color: #fff;
-            border-radius: 6px;
-            margin: 0 auto;
-            margin-top: 8%;
-            box-shadow: 1px 1px 1px 1px #cccccc;
+            border-radius: 5px;
+            background-clip: padding-box;
+            border: 1px solid #eaeaea;
+            box-shadow: 0 0 25px #cac6c6;
+            opacity: .9;
+            background-color: #151515;
+            position: absolute;
+            margin-top: 9%;
+            margin-left: 37%;
 
         }
         .in{
@@ -33,9 +38,10 @@
             padding: 20px 0;
         }
         #submit{
-            background-color:RGB(56,121,217);
+            background:#000;
             height: 40px;
             font-size: 17px;
+            color: white;
         }
         .captcha{
             float: left;
@@ -60,20 +66,24 @@
             margin-left: 10px;
             color: red;
         }
-
+        body{background-color: #000000;margin: 0px;overflow: hidden;}
+        /*a{color:#0078ff;}*/
+        .Title{
+            color: white;
+        }
     </style>
 </head>
 <body>
    <div class="login_div">
         <form>
-            <h1>系统登录</h1>
-
+            <h1 class="Title">系统登录</h1><br>
             <p>
-                <input type="text" name="username" id="name"  placeholder="请输入用户名" class="in" value="" required="required"/>
+                <input type="text" name="username" id="name"  placeholder="请输入用户名" class="in" required/>
             </p>
             <p class="point"></p>
             <p>
-                <input type="text" name="password" id="password"  placeholder="请输入密码" class="in" value="" required>
+                <input type="password" name="password" id="password"  placeholder="请输入密码" class="in" pattern=".{6,10}"
+                       pm="密码要在6到10位之间" required>
             </p>
            <p class="point"></p>
             <div style="clear: both"></div>
@@ -89,36 +99,172 @@
             <p>{{csrf_field()}}</p>
         </form>
    </div>
-</body>
-<script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-    $("#code_A").click(function(){
-        $("#Captcha_img").attr("src","http://cgz.marchsoft.cn/captcha/"+Math.random());
-    });
-    function submitForm() {
-        $.ajax(
-            {   type: "POST",
-                url:"/login",
-                data:{
-                    "username":$("#name").val(),
-                    "password":$("#password").val(),
-                    "checkcode":$("#Captcha").val(),
-                    },
-                dataType: "json",
-                success:function (response) {
-                if(response.data.code==0){
-                    window.location.reload()
-                }else {}
+   <script>
+           $.ajaxSetup({
+               headers: {
+                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+               }
+           });
+           $("#code_A").click(function(){
+               $("#Captcha_img").attr("src","http://cgz.marchsoft.cn/captcha/"+Math.random());
+           });
+           function submitForm() {
+               $.ajax(
+                   {   type: "POST",
+                       url:"/login",
+                       data:{
+                           "username":$("#name").val(),
+                           "password":$("#password").val(),
+                           "checkcode":$("#Captcha").val(),
+                           },
+                       dataType: "json",
+                       success:function (response) {
+                       if(response.data.code==0){
+                           window.location.reload()
+                       }else {}
 
-                },
-                error:function (response) {
-                    console.log(11)
-                }
-            })
-    }
-</script>
+                       },
+                       error:function (response) {
+                           console.log(11)
+                       }
+                   })
+           }
+   </script>
+
+   <script type="text/javascript" src="{{ asset('js\background_pic.min.js')  }}"></script>
+   <script type="text/javascript">
+       var SEPARATION = 100, AMOUNTX = 50, AMOUNTY = 50;
+
+       var container;
+       var camera, scene, renderer;
+
+       var particles, particle, count = 0;
+
+       var mouseX = 0, mouseY = 0;
+
+       var windowHalfX = window.innerWidth / 2;
+       var windowHalfY = window.innerHeight /1.5;
+
+       init();
+       animate();
+
+       function init() {
+
+           container = document.createElement( 'div' );
+           document.body.appendChild(container);
+
+           camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
+           camera.position.z = 1000;
+
+           scene = new THREE.Scene();
+
+           particles = new Array();
+
+           var PI2 = Math.PI * 2;
+           var material = new THREE.ParticleCanvasMaterial( {
+
+               color: 0xffffff,
+               program: function ( context ) {
+
+                   context.beginPath();
+                   context.arc( 0, 0, 1, 0, PI2, true );
+                   context.fill();
+               }
+           } );
+
+           var i = 0;
+
+           for ( var ix = 0; ix < AMOUNTX; ix ++ ) {
+
+               for ( var iy = 0; iy < AMOUNTY; iy ++ ) {
+
+                   particle = particles[ i ++ ] = new THREE.Particle( material );
+                   particle.position.x = ix * SEPARATION - ( ( AMOUNTX * SEPARATION ) / 2 );
+                   particle.position.z = iy * SEPARATION - ( ( AMOUNTY * SEPARATION ) / 2 );
+                   scene.add( particle );
+               }
+           }
+
+           renderer = new THREE.CanvasRenderer();
+           renderer.setSize( window.innerWidth, window.innerHeight );
+           container.appendChild( renderer.domElement );
+
+           document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+           document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+           document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+
+           window.addEventListener( 'resize', onWindowResize, false );
+       }
+
+       function onWindowResize() {
+
+           windowHalfX = window.innerWidth / 2;
+           windowHalfY = window.innerHeight / 2;
+
+           camera.aspect = window.innerWidth / window.innerHeight;
+           camera.updateProjectionMatrix();
+
+           renderer.setSize( window.innerWidth, window.innerHeight );
+
+       }
+
+       function onDocumentMouseMove( event ) {
+
+           mouseX = event.clientX - windowHalfX;
+           mouseY = event.clientY - windowHalfY;
+
+       }
+       function onDocumentTouchStart( event ) {
+
+           if ( event.touches.length === 1 ) {
+
+               event.preventDefault();
+
+               mouseX = event.touches[ 0 ].pageX - windowHalfX;
+               mouseY = event.touches[ 0 ].pageY - windowHalfY;
+
+           }
+       }
+
+       function onDocumentTouchMove( event ) {
+
+           if ( event.touches.length === 1 ) {
+
+               event.preventDefault();
+
+               mouseX = event.touches[ 0 ].pageX - windowHalfX;
+               mouseY = event.touches[ 0 ].pageY - windowHalfY;
+           }
+       }
+       function animate() {
+
+           requestAnimationFrame( animate );
+
+           render();
+       }
+
+       function render() {
+
+           camera.position.x += ( mouseX - camera.position.x ) * .05;
+           camera.position.y += ( - mouseY - camera.position.y ) * .05;
+           camera.lookAt( scene.position );
+
+           var i = 0;
+
+           for ( var ix = 0; ix < AMOUNTX; ix ++ ) {
+
+               for ( var iy = 0; iy < AMOUNTY; iy ++ ) {
+
+                   particle = particles[ i++ ];
+                   particle.position.y = ( Math.sin( ( ix + count ) * 0.3 ) * 50 ) + ( Math.sin( ( iy + count ) * 0.5 ) * 50 );
+                   particle.scale.x = particle.scale.y = ( Math.sin( ( ix + count ) * 0.3 ) + 1 ) * 2 + ( Math.sin( ( iy + count ) * 0.5 ) + 1 ) * 2;
+               }
+           }
+           renderer.render( scene, camera );
+
+           count += 0.1;
+
+       }
+   </script>
+</body>
 </html>
