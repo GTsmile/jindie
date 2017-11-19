@@ -14,25 +14,10 @@
             width:500px ;
             height:400px;
             border-radius: 5px;
-            background-clip: padding-box;
             border: 1px solid #eaeaea;
-            box-shadow: 0 0 25px #cac6c6;
+            box-shadow: 0 7px 20px 0 #cac6c6;
             opacity: .9;
-            background-color: #151515;
-            position: absolute;
-            margin-top: 9%;
-            margin-left: 37%;
-
-
-        }
-        .form input{
-            margin-top: 16px;
-        }
-        .form h1{
-            margin: 0;
-        }
-        .form span{
-            font-size: 12px;
+            background-color: white;
         }
         .in{
             height: 35px;
@@ -42,7 +27,7 @@
             border-radius: 5px;
             border: 1px solid #cccccc;
         }
-        form{
+        .formdiv{
             width: 323px;
             text-align: center;
             padding: 20px 0;
@@ -51,7 +36,8 @@
             background:#000;
             height: 40px;
             font-size: 17px;
-            color: white;
+            /*color: white;*/
+            background-color:#448ac7;
         }
         .captcha{
             float: left;
@@ -70,45 +56,55 @@
         *{
             margin: 0 auto;
         }
-        .point{
+        .remind{
             height: 21px;
             float: left;
             margin-left: 10px;
             color: red;
         }
-        body{background-color: #000000;margin: 0px;overflow: hidden;}
+        body{
+            background-color: #000000;
+            margin: 0px;
+            overflow: hidden;
+            text-align: center;
+        }
         /*a{color:#0078ff;}*/
-        .Title{
-            color: white;
+        .centerdiv{
+            margin: 0 auto;
+            width: 100%;
+            position: absolute;
+            top: 17%;
         }
     </style>
 </head>
 <body>
+<div class="centerdiv">
    <div class="login_div">
-        <form>
+        <form class="formdiv">
             <h1 class="Title">系统登录</h1><br>
             <p>
                 <input type="text" name="username" id="name"  placeholder="请输入用户名" class="in" required/>
             </p>
-            <p class="point"></p>
+            <p class="remind"></p>
             <p>
                 <input type="password" name="password" id="password"  placeholder="请输入密码" class="in" pattern=".{6,10}"
                        pm="密码要在6到10位之间" required>
             </p>
-           <p class="point"></p>
+           <p class="remind"></p>
             <div style="clear: both"></div>
             <p >
                 <input type="text" name="Captcha" class="captcha" placeholder="请输入验证码"id="Captcha" required>
                 <a id="code_A"><img src="http://cgz.marchsoft.cn/captcha/1"id="Captcha_img"></a>
             </p>
             <div style="clear: both"></div>
-            <p class="point"></p>
+            <p class="remind"></p>
             <p>
                 <input type="button" name="submit" value="登录" class="in" id="submit" onclick="submitForm()">
             </p>
             <p>{{csrf_field()}}</p>
         </form>
    </div>
+</div>
    <script>
            $.ajaxSetup({
                headers: {
