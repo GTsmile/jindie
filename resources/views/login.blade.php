@@ -137,7 +137,7 @@
            }
    </script>
 
-   <script type="text/javascript" src="{{ asset('js\background_pic.min.js')  }}"></script>
+   <script type="text/javascript" src=" /chart/background_pic.min.js "></script>
    <script type="text/javascript">
        var SEPARATION = 100, AMOUNTX = 50, AMOUNTY = 50;
 
