@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('login');
 });
 Route::post('/check','Admin\LoginController@check');
-Route::get('/check','Admin\LoginController@check');
+Route::get('/captcha/get','Admin\LoginController@get_captcha');
 Route::post('/logout','Admin\LoginController@logout');
 Route::get('/test','Admin\LoginController@test');
 

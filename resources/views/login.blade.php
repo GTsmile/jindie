@@ -82,22 +82,22 @@
    <div class="login_div">
         <form class="formdiv">
             <h1 class="Title">系统登录</h1><br>
-            <p>
-                <input type="text" name="username" id="name"  placeholder="请输入用户名" class="in" required/>
-            </p>
-            <p class="remind"></p>
+            <div>
+                <input type="text" name="user" id="name"  placeholder="请输入用户名" class="in" required/>
+            </div>
+            <p class="remind remind-user"></p>
             <p>
                 <input type="password" name="password" id="password"  placeholder="请输入密码" class="in" pattern=".{6,10}"
                        pm="密码要在6到10位之间" required>
             </p>
-           <p class="remind"></p>
+           <p class="remind remind-pwd"></p>
             <div style="clear: both"></div>
-            <p >
-                <input type="text" name="Captcha" class="captcha" placeholder="请输入验证码"id="Captcha" required>
-                <a id="code_A"><img src="http://cgz.marchsoft.cn/captcha/1"id="Captcha_img"></a>
-            </p>
+            <div style="width: 100%;height: 40px;">
+                <input style="width: 125px;" type="text" name="captcha" class="captcha" placeholder="请输入验证码"id="captcha" required>
+                <a id="code_A"><img src="{{url('captcha/get')}}" onclick="this.src='{{url('captcha/get')}}?'+Math.random();" id="Captcha_img"></a>
+            </div>
             <div style="clear: both"></div>
-            <p class="remind"></p>
+            <p class="remind remind-captcha"></p>
             <p>
                 <input type="button" name="submit" value="登录" class="in" id="submit" onclick="submitForm()">
             </p>
@@ -105,6 +105,7 @@
         </form>
    </div>
 </div>
+<<<<<<< HEAD
    <script>
            $.ajaxSetup({
                headers: {
@@ -138,6 +139,9 @@
    </script>
 
    <script type="text/javascript" src=" /chart/background_pic.min.js "></script>
+=======
+   <script type="text/javascript" src="{{ asset('js\background_pic.min.js')  }}"></script>
+>>>>>>> 9f5bbae4ee309fa86124b55aed198d4b215bb296
    <script type="text/javascript">
        var SEPARATION = 100, AMOUNTX = 50, AMOUNTY = 50;
 
@@ -280,29 +284,58 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    $("#code_A").click(function(){
-        $("#Captcha_img").attr("src","http://cgz.marchsoft.cn/captcha/"+Math.random());
+    $('#name').bind("input propertychange change",function() {
+        if($('#name').val() != ''){
+            $('.remind-user').html('')
+        }
+    });
+    $('#password').bind('input propertychange', function() {
+        if($('#password').val() != ''){
+            $('.remind-pwd').html('')
+        }
+    });
+    $('#captcha').bind('input propertychange', function() {
+        if($('#captcha').val() != ''){
+            $('.remind-captcha').html('')
+        }
     });
     function submitForm() {
-        $.ajax(
-            {   type: "POST",
-                url:"/check",
-                data:{
-                    "username":$("#name").val(),
-                    "password":$("#password").val(),
-                    "checkcode":$("#Captcha").val(),
+        var user = $("#name").val();
+        var password = $("#password").val();
+        var captcha = $("#captcha").val();
+        if(user == ''){
+            $('.remind-user').html('用户名不能为空')
+        }else if(password == ''){
+            $('.remind-pwd').html('密码不能为空')
+        }else if(captcha == ''){
+            $('.remind-captcha').html('验证码不能为空')
+        }else{
+            $.ajax(
+                {   type: "POST",
+                    url:"/check",
+                    data:{
+                        "user": user,
+                        "password": password,
+                        "captcha": captcha,
+                        },
+                    dataType: "json",
+                    success:function (res) {
+                        if(res.code == 0){
+                            window.location.href = '/#/auth'
+                        }else if(res.code == 1){    //密码错误
+                            $('.remind-pwd').html('密码错误')
+                        }else if(res.code == 2){    //该用户不存在
+                            $('.remind-user').html('用户名不存在')
+                        }else {     //验证码错误
+                            $("#Captcha_img").attr("src",'{{url('captcha/get')}}?'+Math.random());
+                            $('.remind-captcha').html('验证码错误')
+                        }
                     },
-                dataType: "json",
-                success:function (response) {
-                if(response.data.code==0){
-                    window.location.reload()
-                }else {}
+                    error:function (response) {
 
-                },
-                error:function (response) {
-                    console.log(11)
-                }
-            })
+                    }
+                })
+        }
     }
 </script>
 </html>
