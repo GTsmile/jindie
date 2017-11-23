@@ -76,9 +76,6 @@ class IndexController extends Controller{
     }
 
     public function getPositionUnit(Request $request){
-       
-
-
         $currentPage=$request->input('currentPage');
         $pageSize=$request->input('pageSize');
         $offset=($currentPage-1)*$pageSize;
@@ -108,8 +105,12 @@ class IndexController extends Controller{
     public function getRole(){
         //OA role
         $oa=DB::reconnect('sqlsrv')->table("system_roles")->get();
+        $erp=DB::reconnect('erp')->table("t_GroupAccessType")->get();
+        $hr=DB::reconnect('erp')->table("HRMS_Permissions")->get();
         return response()->json([
-            'roleOA'=> $oa
+            'roleOA'=> $oa,
+            'roleERP'=>$erp,
+            'roleHR'=>$hr
         ]);
     }
 
@@ -129,6 +130,23 @@ class IndexController extends Controller{
                 $userOfPosition=$this->userOfPosition($positionName,$departmentName);
                 $delres=$this->deleteOAUser(array_column(json_decode($userOfPosition,'true'),'user_id'));
                 $inserRes=$this->insertUserRole(array_column(json_decode($userOfPosition,'true'),'user_id'),$request->input('selRoleIndex'));
+                if($result&&$inserRes){  
+                    DB::commit();  
+                    return response()->json("true");
+                }  
+            }catch(\Exception $e){
+                DB::rollBack();
+            }
+            return  response()->json("false");
+        }else if($db=="ERP"){
+            try{
+                $result=DB::reconnect('pm')->table('relationship')
+                ->where('HR_position_id',$positionId)
+                ->update(['erp_role_id '=> $selRoleIndex]);
+                $userOfIDCard=$this->userOfPositionERP($positionName,$departmentName);
+                $userIdRes=$this->idCardofuserID((array_column(json_decode($userOfIDCard,'true'),'IDCardID')));
+                $delres=$this->deleteERPUser(array_column(json_decode($userIdRes,'true'),'FUserID'));
+                $inserRes=$this->insertUserRoleERP(array_column(json_decode($userIdRes,'true'),'FUserID'),$request->input('selRoleIndex'));
                 if($result&&$inserRes){  
                     DB::commit();  
                     return response()->json("true");
@@ -160,6 +178,27 @@ class IndexController extends Controller{
         return false;
     }
 
+    //用户Id数组（通过配置职位角色，得到该职位所有用户的id）
+    //ERP权限id数组在OA系统里插入用户对应角色（权限）
+    public function insertUserRoleERP($userIdArr,$selRoleIndex){
+        $rowAll=[];
+        foreach($userIdArr as $userId){
+            foreach($selRoleIndex as $roleIndex){
+                $row = [
+                    'FUserID' => $userId,
+                    'FGroupID' => $roleIndex,
+                    'FType'=> 1
+                ];
+                $rowAll[] = $row;
+            } 
+        }
+        $res=DB::reconnect('erp')->table('t_GroupAccess')->insert($rowAll);
+        if($res){
+            return true;
+        }
+        return false;
+    }
+
     //传入用户id数组将system_user_role该用户们的所有角色信息删除
     public function deleteOAUser($userIdArr){
         $res=DB::reconnect('sqlsrv')->table('system_user_role')
@@ -168,7 +207,41 @@ class IndexController extends Controller{
         return $res;
     }
 
-    //传入职位名称，得到该职位所有用户id
+    //根据身份证号得到用户Id        ERP
+    public function idCardofuserID($userIdCardArr){
+        $res = DB::reconnect('erp')->table('t_Base_Emp')
+        ->join('t_Base_User','t_Base_User.FEmpID','=','t_Base_Emp.FItemID')
+        ->whereIn('FID',$userIdCardArr)
+        ->select('t_Base_User.FUserID')
+        ->get();
+        return $res;
+    }
+
+    //传入用户id数组将system_user_role该用户们的所有权限信息删除  ERP
+    public function deleteERPUser($userIdArr){
+        $res=DB::reconnect('erp')->table('t_GroupAccess')
+        ->whereIn('FUserID',$userIdArr)
+        ->delete();
+        return $res;
+    }
+
+    //传入职位名称，得到该职位所有用户身份证号     ERP
+    public function userOfPositionERP($positionName,$departmentName){
+        $userOfPosition=DB::reconnect('erp')->table('HR_Base_Emp')
+        ->join('Wf_biz_InPositionInfo','Wf_biz_InPositionInfo.EM_ID','=','HR_Base_Emp.EM_ID')
+        ->join('ORG_Position','Wf_biz_InPositionInfo.PositionID','=','ORG_Position.ID')
+        ->join('ORG_Unit','ORG_Unit.ID','=','Wf_biz_InPositionInfo.UnitID')
+        ->where([
+            ['ORG_Position.Name',$positionName],
+            ['ORG_Unit.Name',$departmentName]
+        ])
+        ->select('HR_Base_Emp.IDCardID')
+        ->groupBy('HR_Base_Emp.IDCardID')
+        ->get();
+        return  $userOfPosition;
+    }
+
+    //传入职位名称，得到该职位所有用户id      OA
     public function userOfPosition($positionName,$departmentName){
         $userOfPosition=DB::reconnect('sqlsrv')->table('system_position')
         ->join('system_positionmember','system_position.id','=','system_positionmember.position_id')

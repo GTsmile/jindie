@@ -14,8 +14,13 @@
 include 'admin.php';
 include 'api.php';
 
+// Route::get('/', function () {
+//     return view('Login');
+
+// });
+
 Route::get('/', function () {
-    return view('Login');
+    return view('index');
 
 });
 

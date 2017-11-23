@@ -68,33 +68,34 @@ return [
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
-            'host' => env('DB_HOST', 'localhost'),
+            'host' => env('DB_HOST', '王琦\SQLEXPRESS'),
             'database' => env('DB_DATABASE', 'firstname'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'username' => env('DB_USERNAME', 'sa'),
+            'password' => env('DB_PASSWORD', '123456'),
             'charset' => 'utf8',
             'prefix' => '',
         ],
 
         'erp' => [
             'driver' => 'sqlsrv',
-            'host' => env('DB_HOST', 'localhost'),
+            'host' => env('DB_HOST', '王琦\SQLEXPRESS'),
             'database' => env('DB_DATABASE2', 'AIS20140711082112'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'username' => env('DB_USERNAME', 'sa'),
+            'password' => env('DB_PASSWORD', '123456'),
             'charset' => 'utf8',
             'prefix' => '',
         ],
 
         'pm' => [
             'driver' => 'sqlsrv',
-            'host' => env('DB_HOST', 'localhost'),
+            'host' => env('DB_HOST', '王琦\SQLEXPRESS'),
             'database' => env('DB_DATABASE3', 'people_mgr'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'username' => env('DB_USERNAME', 'sa'),
+            'password' => env('DB_PASSWORD', '123456'),
             'charset' => 'utf8',
             'prefix' => '',
         ],
+
     ],
 
     /*

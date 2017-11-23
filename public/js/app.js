@@ -33521,11 +33521,7 @@ var Component = __webpack_require__(51)(
   /* cssModules */
   null
 )
-<<<<<<< HEAD
-Component.options.__file = "C:\\Users\\lenovo\\jindie\\resources\\assets\\js\\Home.vue"
-=======
 Component.options.__file = "E:\\Apache24\\htdocs\\jd\\jindie\\resources\\assets\\js\\Home.vue"
->>>>>>> c24e76b7de262c0c48fa25870c155152fe22cb54
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Home.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -33563,11 +33559,7 @@ var Component = __webpack_require__(51)(
   /* cssModules */
   null
 )
-<<<<<<< HEAD
-Component.options.__file = "C:\\Users\\lenovo\\jindie\\resources\\assets\\js\\components\\Admin\\Base.vue"
-=======
 Component.options.__file = "E:\\Apache24\\htdocs\\jd\\jindie\\resources\\assets\\js\\components\\Admin\\Base.vue"
->>>>>>> c24e76b7de262c0c48fa25870c155152fe22cb54
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] Base.vue: functional components are not supported with templates, they should use render functions.")}
 

@@ -36,7 +36,7 @@ import Axios from 'axios'
         tableData: [],
         currentPage: 1,
         pageSize: 10,
-        total:100
+        total:0
       }
     },
      methods: {
@@ -62,7 +62,6 @@ import Axios from 'axios'
                   'pageSize': $pageSize
                 })
                 .then(function (response) {
-                   console.log(response.data);
                    vue.tableData=response.data.select_row;
                    vue.total=response.data.userCount;
                 })

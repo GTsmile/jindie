@@ -1,7 +1,7 @@
 <template>
     <div >
         <el-dialog title="编辑角色" :visible.sync="centerDialogVisible" width="auto" center>
-            <el-transfer v-model="selRoleIndex" :data="roles" width="100%"></el-transfer>
+            <el-transfer v-model="selRoleIndex" :data="roles" width="100%" :titles="['可选角色','已选角色']"></el-transfer>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="centerDialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="handleChange();">确 定</el-button>
@@ -57,18 +57,14 @@
             </el-table-column>
             <el-table-column label="ERP">
             <template slot-scope="scope">
-                <el-tag
-                    :key="tag.id"
-                    v-for="tag in selRole"
-                    closable
-                    :disable-transitions="false"
-                    @close="handleClose(tag)">
-                    {{tag.name}}
+                <el-tag :disable-transitions="false" v-if="scope.row.erp_role_id">
+                    {{ scope.row.erp_role_id.length }}
+                    个权限
                 </el-tag>
                 <el-button class="button-new-tag" size="small" @click="modelShow(roleERP,scope,scope.row.erp_role_id)"><i class="el-icon-edit"></i></el-button>
             </template>
             </el-table-column>
-            <el-table-column label="CRM">
+            <!-- <el-table-column label="CRM">
             <template slot-scope="scope">
                 <el-tag
                     :key="tag.id"
@@ -80,7 +76,7 @@
                 </el-tag>
                 <el-button class="button-new-tag" size="small" @click="modelShow(roleCRM,scope,scope.row.crm_role_id)"><i class="el-icon-edit"></i></el-button>
             </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column label="SCM">
             <template slot-scope="scope">
                 <el-tag
@@ -139,7 +135,7 @@ import Axios from 'axios'
         centerDialogVisible: false, //是否弹出模态框
         currentPage: 1, //当前页（分页）
         pageSize: 10,   //每页的大小
-        total:100,      //分页总条数
+        total:0,      //分页总条数
         roleOA:[],      //存储OA系统的角色数据
         roleHR:[],
         roleERP:[],
@@ -175,22 +171,26 @@ import Axios from 'axios'
         handleCurrentChange(val) {
           console.log(`当前页: ${val}`);
           this.getPositionUnit(val,this.pageSize);
+          this.currentPage=val;
         },
         handleCurrentc(row, expanded){
             console.log(row);
         },
         modelShow($currentRole,$scope,$currentRoleIndex) {
             this.roles=$currentRole;
+            console.log($currentRole);
             if($currentRoleIndex==null||$currentRoleIndex=="") this.selRoleIndex=[];
             else this.selRoleIndex=$currentRoleIndex;
             this.currentDBName=$scope.column.label;
             this.currentPositionId=$scope.row.id;
             this.currentPositionName=$scope.row.position;//当前点击的行的职位id
             this.currentDepartment=$scope.row.department;
-            this.centerDialogVisible = true;
+            this.centerDialogVisible = true; 
         },
         handleChange() {
             this.centerDialogVisible = false;
+            console.log(this.currentDBName);
+            console.log(this.selRoleIndex);
             this.updateRole();
         },
         updateRole: function() {
@@ -206,7 +206,6 @@ import Axios from 'axios'
                 .then(function (response) {
                     if(response.data=="true"){
                         vue.getPositionUnit(vue.currentPage,vue.pageSize);
-                        // window.location.reload();
                     }
                 })
                 .catch(function (response) {
@@ -223,6 +222,18 @@ import Axios from 'axios'
                         vue.roleOA.push({
                             key: response.data.roleOA[role].id,
                             label: response.data.roleOA[role].name,
+                        });
+                    }
+                    for (let role in response.data.roleERP) {
+                        vue.roleERP.push({
+                            key: response.data.roleERP[role].FGroupID,
+                            label: response.data.roleERP[role].FSubSys+"->"+response.data.roleERP[role].FAccess,
+                        });
+                    }
+                    for (let role in response.data.roleHR) {
+                        vue.roleHR.push({
+                            key: response.data.roleHR[role].ID,
+                            label: response.data.roleHR[role].Name,
                         });
                     }
                 })
