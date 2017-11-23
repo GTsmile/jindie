@@ -11,11 +11,11 @@
     <title>人员管理系统登录</title>
     <style>
         .login_div{
-            width:500px ;
-            height:400px;
+            width: 440px;
+            height: 380px;
             border-radius: 5px;
             border: 1px solid #eaeaea;
-            box-shadow: 0 7px 20px 0 #cac6c6;
+            box-shadow: 0 2px 2px 0 #cac6c6;
             opacity: .9;
             background-color: white;
         }
@@ -139,9 +139,6 @@
    </script>
 
    <script type="text/javascript" src=" /chart/background_pic.min.js "></script>
-=======
-   <script type="text/javascript" src="{{ asset('js\background_pic.min.js')  }}"></script>
->>>>>>> 9f5bbae4ee309fa86124b55aed198d4b215bb296
    <script type="text/javascript">
        var SEPARATION = 100, AMOUNTX = 50, AMOUNTY = 50;
 
