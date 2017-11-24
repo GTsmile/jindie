@@ -12323,6 +12323,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -12371,8 +12377,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.$confirm('确认退出吗?', '提示', {
 				//type: 'warning'
 			}).then(function () {
-				sessionStorage.removeItem('user');
-				_this.$router.push('/login');
+				axios.post('/logout', {}).then(function (res) {
+					if (res.data.code == 0) {
+						_this.$router.push('/login');
+					}
+				});
+				//sessionStorage.removeItem('user');
 			}).catch(function () {});
 		},
 		//折叠导航栏
@@ -33621,13 +33631,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "slot": "dropdown"
     },
     slot: "dropdown"
-  }, [_c('el-dropdown-item', {
+  }, [_vm._v("\n<<<<<<< HEAD\n\t\t\t\t\t\t"), _c('el-dropdown-item', {
     nativeOn: {
       "click": function($event) {
         _vm.logout($event)
       }
     }
-  }, [_vm._v("退出登录")])], 1)], 1)], 1)], 1), _vm._v(" "), _c('el-col', {
+  }, [_vm._v("退出登录")]), _vm._v("\n=======\n\t\t\t\t\t\t"), _vm._v(" "), _c('el-dropdown-item', [_vm._v("设置")]), _vm._v(" "), _c('el-dropdown-item', {
+    attrs: {
+      "divided": ""
+    },
+    nativeOn: {
+      "click": function($event) {
+        _vm.logout($event)
+      }
+    }
+  }, [_vm._v("退出登录")]), _vm._v("\n>>>>>>> e35a3ab1123b3ba98f51bdf30d38e1f3afc0a9ce\n\t\t\t\t\t")], 1)], 1)], 1)], 1), _vm._v(" "), _c('el-col', {
     staticClass: "main",
     attrs: {
       "span": 24

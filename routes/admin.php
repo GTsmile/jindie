@@ -1,5 +1,2 @@
 <?php
-    Route::group(['middleware' => 'login.check'],function (){
-        Route::post('/check','\Admin\LoginController@check');
-    });
-
+//登陆中间件

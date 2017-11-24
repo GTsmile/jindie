@@ -230,6 +230,7 @@ module.exports.plugins = (module.exports.plugins || []).concat([
     new plugins.CopyWebpackPlugin([
         {from: 'resources/assets/img', to: 'img'},
         {from: 'resources/assets/sass/', to: 'css/'},
+        {from: 'resources/assets/js/chart/', to: 'chart/'},
     ]),
     new plugins.FriendlyErrorsWebpackPlugin(),
 
