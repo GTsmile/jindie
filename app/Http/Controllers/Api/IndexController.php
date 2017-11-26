@@ -46,7 +46,7 @@ class IndexController extends Controller{
         return $temp; 
     } 
 
-    //把HR系统职位信息统计进入本地过渡表
+    //把HR系统职位信息统计进入本地过渡表    部门职位等
     public function updateLocMes(){
          $select_row  =DB::reconnect('erp')->table('ORG_Position')
         ->join('Wf_biz_InPositionInfo','Wf_biz_InPositionInfo.PositionID','=','ORG_Position.ID')
@@ -73,6 +73,10 @@ class IndexController extends Controller{
             $res = DB::reconnect('pm')->table('relationship')->insert($row);
             dump($res);
         }
+    }
+
+    public function updateLocUserRole(){
+        
     }
 
     public function getPositionUnit(Request $request){
