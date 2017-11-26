@@ -13,7 +13,7 @@ function responseToJson($code = 0 ,$msg = '', $result = null)
 //返回session_id
 function get_session_user_id()
 {
-    $user = session('user');
+    $user = session('id');
     return $user ? $user->id : 0;
 }
 
