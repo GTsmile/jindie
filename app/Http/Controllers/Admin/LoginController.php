@@ -29,7 +29,7 @@ class LoginController extends Controller
                 }
             } else {
                 //用户输入验证码错误
-                return responseToJson(3, "warn", '验证码错误');
+                return responseToJson(3, $captcha, session('captcha'));
             }
         }
     }
@@ -52,6 +52,6 @@ class LoginController extends Controller
     }
     public function test()
     {
-
+        
     }
 }
