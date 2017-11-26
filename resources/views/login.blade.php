@@ -105,39 +105,6 @@
         </form>
    </div>
 </div>
-<<<<<<< HEAD
-   <script>
-           $.ajaxSetup({
-               headers: {
-                   'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-               }
-           });
-           $("#code_A").click(function(){
-               $("#Captcha_img").attr("src","http://cgz.marchsoft.cn/captcha/"+Math.random());
-           });
-           function submitForm() {
-               $.ajax(
-                   {   type: "POST",
-                       url:"/login",
-                       data:{
-                           "username":$("#name").val(),
-                           "password":$("#password").val(),
-                           "checkcode":$("#Captcha").val(),
-                           },
-                       dataType: "json",
-                       success:function (response) {
-                       if(response.data.code==0){
-                           window.location.reload()
-                       }else {}
-
-                       },
-                       error:function (response) {
-                           console.log(11)
-                       }
-                   })
-           }
-   </script>
-
    <script type="text/javascript" src=" /chart/background_pic.min.js "></script>
    <script type="text/javascript">
        var SEPARATION = 100, AMOUNTX = 50, AMOUNTY = 50;
