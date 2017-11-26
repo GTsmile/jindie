@@ -20,8 +20,7 @@ class LoginController extends Controller
                 $result = Admin::check_login($user);
                 if($user){
                     if($password == $result->password){
-                        session('id',$result->id);
-                        session('user',$result);
+                        session(['user' => $result]);
                         return responseToJson(0,'success','登录成功');
                     }else{
                         return responseToJson(1,'error','密码错误');
