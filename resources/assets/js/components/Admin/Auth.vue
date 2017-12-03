@@ -44,14 +44,13 @@
             </el-table-column>
             <el-table-column label="HR">
             <template slot-scope="scope">
-                <el-tag
-                    :key="tag.id"
-                    v-for="tag in selRole"
-                    closable
-                    :disable-transitions="false"
-                    @close="handleClose(tag)">
-                    {{tag.name}}
-                </el-tag>
+                    <el-tag
+                        :key="index"
+                        v-if="scope.row.hr_role_id"
+                        :disable-transitions="false">
+                        {{ scope.row.hr_role_id.length }}
+                        个权限
+                    </el-tag>
                 <el-button class="button-new-tag" size="small" @click="modelShow(roleHR,scope,scope.row.hr_role_id)"><i class="el-icon-edit"></i></el-button>
             </template>
             </el-table-column>
@@ -178,7 +177,6 @@ import Axios from 'axios'
         },
         modelShow($currentRole,$scope,$currentRoleIndex) {
             this.roles=$currentRole;
-            console.log($currentRole);
             if($currentRoleIndex==null||$currentRoleIndex=="") this.selRoleIndex=[];
             else this.selRoleIndex=$currentRoleIndex;
             this.currentDBName=$scope.column.label;

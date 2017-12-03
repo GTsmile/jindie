@@ -13,12 +13,13 @@ class LoginController extends Controller
     {
         $user = $request->user;
         $captcha = $request->captcha;
+        $errCount=$request->errCount;
         if($request->isMethod('post')){
-            if (session('captcha') == $captcha) {
+            if (session('captcha') == $captcha||$errCount<=3) {
                 //用户输入验证码正确
                 $password = md5($request->password);
                 $result = Admin::check_login($user);
-                if($user){
+                if($result){
                     if($password == $result->password){
                         session(['user' => $result]);
                         return responseToJson(0,'success','登录成功');
@@ -48,11 +49,21 @@ class LoginController extends Controller
     }
     public function logout(Request $request)
     {
-        session(null);
+        $result = $request->session()->flush();
         return responseToJson(0,'success','退出成功');
     }
     public function test()
     {
+        // dump(get_session_user_id());
+        $userOfPosition=DB::reconnect('sqlsrv')->table('system_position')
+        ->join('system_positionmember','system_position.id','=','system_positionmember.position_id')
+        ->selectRaw("max(system_positionmember.user_id) as user_id,system_position.id")
+        ->groupBy('system_positionmember.position_id')
+        ->get();
+       
+        // $userOfPosition=DB::reconnect('sqlsrv')->table('system_user_role')
+        // ->
 
+        dump($userOfPosition);
     }
 }

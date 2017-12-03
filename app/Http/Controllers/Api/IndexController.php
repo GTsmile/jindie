@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use DB;
 use Illuminate\Http\Request;
-
+use Session;
+use Log;
 class IndexController extends Controller{
 
     public function getUser(Request $request){
@@ -76,7 +77,7 @@ class IndexController extends Controller{
     }
 
     public function updateLocUserRole(){
-        
+            
     }
 
     public function getPositionUnit(Request $request){
@@ -125,6 +126,7 @@ class IndexController extends Controller{
         $positionId=$request->input('currentPositionId');
         $positionName=$request->input('currentPositionName');
         $departmentName=$request->input('currentDepartment');
+        $time=date('y-m-d h:i:',time());
         if($db=="OA"){
             DB::beginTransaction();
             try{
@@ -136,31 +138,94 @@ class IndexController extends Controller{
                 $inserRes=$this->insertUserRole(array_column(json_decode($userOfPosition,'true'),'user_id'),$request->input('selRoleIndex'));
                 if($result&&$inserRes){  
                     DB::commit();  
+                    Log::info($time.session('user')->username.$db.$positionName.$departmentName.$selRoleIndex.$positionId.'true');                                        
                     return response()->json("true");
                 }  
             }catch(\Exception $e){
                 DB::rollBack();
             }
+            Log::info($time.session('user')->username.$db.$positionName.$departmentName.$selRoleIndex.$positionId.'false');                                
             return  response()->json("false");
         }else if($db=="ERP"){
-            try{
+            DB::beginTransaction();
+            try{    //得到该职位在hr系统里的用户,然后再erp系统里找到这些用户并添加对应的权限（如果身份证号信息没填就没法对应，名字的话重名就完了）
                 $result=DB::reconnect('pm')->table('relationship')
                 ->where('HR_position_id',$positionId)
                 ->update(['erp_role_id '=> $selRoleIndex]);
                 $userOfIDCard=$this->userOfPositionERP($positionName,$departmentName);
-                $userIdRes=$this->idCardofuserID((array_column(json_decode($userOfIDCard,'true'),'IDCardID')));
+                $userIdRes=$this->idCardofuserID((array_column(json_decode($userOfIDCard,'true'),'IDCardID')));   
                 $delres=$this->deleteERPUser(array_column(json_decode($userIdRes,'true'),'FUserID'));
                 $inserRes=$this->insertUserRoleERP(array_column(json_decode($userIdRes,'true'),'FUserID'),$request->input('selRoleIndex'));
                 if($result&&$inserRes){  
                     DB::commit();  
+                    Log::info($time.session('user')->username.$db.$positionName.$departmentName.$selRoleIndex.$positionId.'true');                                        
                     return response()->json("true");
                 }  
             }catch(\Exception $e){
                 DB::rollBack();
             }
+            Log::info($time.session('user')->username.$db.$positionName.$departmentName.$selRoleIndex.$positionId.'false');                                
+            return  response()->json("false");
+        }else if($db=="HR"){
+            DB::beginTransaction();
+            try{
+                $result=DB::reconnect('pm')->table('relationship')
+                ->where('HR_position_id',$positionId)
+                ->update(['hr_role_id '=> $selRoleIndex]);
+                $delHRPer=DB::reconnect('erp')->table('HRMS_PositionRight')->where('PositionID',$positionId)->delete();
+                $inserRes=$this->insertHRauth($positionId,$selRoleIndex);
+                if($result&&$inserRes){  
+                    DB::commit();  
+                    Log::info($time.session('user')->username.$db.$positionName.$departmentName.$selRoleIndex.$positionId.'true');                                        
+                    return response()->json("true");
+                }  
+            }catch(\Exception $e){
+                DB::rollBack();
+            }
+            Log::info($time.session('user')->username.$db.$positionName.$departmentName.$selRoleIndex.$positionId.'false');                    
             return  response()->json("false");
         }
     }
+
+    //生成GUID
+    function guid(){
+        if (function_exists('com_create_guid')){
+            return com_create_guid();
+        }else{
+            mt_srand((double)microtime()*10000);//optional for php 4.2.0 and up.
+            $charid = strtoupper(md5(uniqid(rand(), true)));
+            $hyphen = chr(45);// "-"
+            $uuid = chr(123)// "{"
+                    .substr($charid, 0, 8).$hyphen
+                    .substr($charid, 8, 4).$hyphen
+                    .substr($charid,12, 4).$hyphen
+                    .substr($charid,16, 4).$hyphen
+                    .substr($charid,20,12)
+                    .chr(125);// "}"
+            return $uuid;
+        }
+    }
+
+    //HR系统权限插入 参数：职位id,权限id数组
+    public function insertHRauth($positionId,$authStr){
+        $rowAll=[];
+        if($authStr=="") return true;
+        $authArr=explode(',',$authStr);
+        foreach($authArr as $authId){
+            $row=[
+                'ID' => $this->guid(),
+                'PositionID' => $positionId,
+                'RightID' => $authId
+            ];
+            $rowAll []=$row;
+        }
+        $res=DB::reconnect('erp')->table('HRMS_PositionRight')->insert($rowAll);
+        if($res){
+            return true;
+        }
+        return false;
+    }
+
 
     //用户Id数组（通过配置职位角色，得到该职位所有用户的id）
     //OA角色id数组在OA系统里插入用户对应角色（权限）
