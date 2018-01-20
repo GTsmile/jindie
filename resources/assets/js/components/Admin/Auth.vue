@@ -1,13 +1,22 @@
 <template>
     <div >
         <el-dialog title="编辑角色" :visible.sync="centerDialogVisible" width="auto" center>
-            <el-transfer v-model="selRoleIndex" :data="roles" width="100%" :titles="['可选角色','已选角色']"></el-transfer>
+            <el-transfer filterable v-model="selRoleIndex" :data="roles" width="100%" :titles="['可选角色','已选角色']"></el-transfer>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="centerDialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="handleChange();">确 定</el-button>
             </span>
         </el-dialog>
-		<el-table
+        <br/>
+        <el-form :inline="true">
+            <el-form-item>
+                <el-input  placeholder="请输入....." v-model="inputSearch"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="search" @click="getPositionUnit(currentPage,pageSize,inputSearch)">查询</el-button>
+            </el-form-item>
+        </el-form>
+		<el-table :default-sort = "{prop: 'date', order: 'descending'}"
             :data="tableData"
             style="width: 100%"
             @expand="handleCurrentc()">
@@ -45,8 +54,7 @@
             <el-table-column label="HR">
             <template slot-scope="scope">
                     <el-tag
-                        :key="index"
-                        v-if="scope.row.hr_role_id"
+                        v-if="scope.row.hr_role_id != 0 "
                         :disable-transitions="false">
                         {{ scope.row.hr_role_id.length }}
                         个权限
@@ -125,6 +133,7 @@ import Axios from 'axios'
         tableData: [],      //table数据
         roles: [],          //当前弹出模态框显示数据（角色）
         value10: [],        
+        inputSearch: "", //table搜索框
         selRole: [],        //每个数据库对应职位当前的角色信息
         currentDBName: 0, //当前点击的列
         currentPositionId:0,//当前点击的行的职位id
@@ -165,11 +174,11 @@ import Axios from 'axios'
         },
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
-            this.getPositionUnit(this.currentPage,val); 
+            this.getPositionUnit(this.currentPage,val,this.inputSearch); 
         },
         handleCurrentChange(val) {
           console.log(`当前页: ${val}`);
-          this.getPositionUnit(val,this.pageSize);
+          this.getPositionUnit(val,this.pageSize,this.inputSearch);
           this.currentPage=val;
         },
         handleCurrentc(row, expanded){
@@ -240,12 +249,13 @@ import Axios from 'axios'
                 });
             })
         },
-        getPositionUnit: function($currentPage,$pageSize) {
+        getPositionUnit: function($currentPage,$pageSize,$inputSearch) {
             var vue=this;
             this.$nextTick(function () {
                 axios.post('/getPositionUnit', {
                     'currentPage': $currentPage,
-                    'pageSize': $pageSize
+                    'pageSize': $pageSize,
+                    'where': $inputSearch
                 })
                 .then(function (response) {
                     vue.tableData=response.data.select_row;
