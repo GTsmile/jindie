@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Psy\Command\Command;
 use DB;
 
 class Kernel extends ConsoleKernel
@@ -14,7 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\order::class,
+        //
+        Commands\check::class,
     ];
 
     /**
@@ -25,9 +27,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('order:make')->everyMinute();
-        $result=DB::table('system_users')->where('id',2)->update(['sex'=> 9]);
-        
+        // $schedule->command('inspire')
+        //          ->hourly();
+
+        /*$schedule->command('inspire')
+            ->hourly();*/
+
+        $schedule->command('check:make')->everyMinute();
+
+        /*$schedule->call(function () {
+            // 在每个礼拜一的 13:00 运行一次...
+        })->weekly()->mondays()->at('14:53');*/
     }
 
     /**

@@ -21,7 +21,6 @@ Route::get('/', function () {
 Route::post('/check','Admin\LoginController@check');
 Route::get('/captcha/get','Admin\LoginController@get_captcha');
 Route::post('/logout','Admin\LoginController@logout');
-Route::get('/test','Admin\LoginController@test');
 
 Route::get('/login', function () {
     return view('login');
@@ -40,5 +39,6 @@ Route::get('/captcha/{tmp}', 'Admin\LoginController@captcha');
 Route::get('/login','Admin\LoginController@check');*/
 Route::get('/index/captcha/{tmp}', 'Admin\LoginController@captcha');
 
-
-
+//测试
+Route::get('/test','Admin\LoginController@test');
+Route::get('/start','Admin\TimeController@start');
