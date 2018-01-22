@@ -7,7 +7,7 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Psy\Command\Command;
 use Log;
 use DB;
-
+use Log;
 class Kernel extends ConsoleKernel
 {
     /**
@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        Commands\check::class,
+        Commands\order::class,
     ];
 
     /**
@@ -33,6 +33,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             // 在每个礼拜一的 13:00 运行一次...
         })->weekly()->mondays()->at('14:53');
+
     }
 
     /**

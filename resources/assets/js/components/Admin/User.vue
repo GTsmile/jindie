@@ -1,5 +1,14 @@
 <template>
     <div >
+        <br/>
+        <el-form :inline="true">
+            <el-form-item>
+                <el-input  placeholder="请输入....." v-model="inputSearch"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" icon="search" @click="getUser(currentPage,pageSize,inputSearch)">查询</el-button>
+            </el-form-item>
+        </el-form>
 		  <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column
           prop="name"
@@ -36,7 +45,8 @@ import Axios from 'axios'
         tableData: [],
         currentPage: 1,
         pageSize: 10,
-        total:0
+        total:0,
+        inputSearch: "", //table搜索框
       }
     },
      methods: {
@@ -48,18 +58,19 @@ import Axios from 'axios'
         },
         handleSizeChange(val) {
           console.log(`每页 ${val} 条`);
-          this.getUser(this.currentPage,val); 
+          this.getUser(this.currentPage,val,this.inputSearch); 
         },
         handleCurrentChange(val) {
           console.log(`当前页: ${val}`);
-          this.getUser(val,this.pageSize); 
+          this.getUser(val,this.pageSize,this.inputSearch); 
         },
-        getUser: function($currentPage,$pageSize) {
+        getUser: function($currentPage,$pageSize,$inputSearch) {
             var vue=this;
             this.$nextTick(function () {
                 axios.post('/getUser', {
                   'currentPage': $currentPage,
-                  'pageSize': $pageSize
+                  'pageSize': $pageSize,
+                  'where' : $inputSearch
                 })
                 .then(function (response) {
                    vue.tableData=response.data.select_row;

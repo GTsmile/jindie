@@ -2,18 +2,17 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\Admin\TimeController;
 use Illuminate\Console\Command;
+use Log;
 use DB;
-
-class check extends Command
+class order extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'check:make';
+    protected $signature = 'order:make';
 
     /**
      * The console command description.
@@ -39,10 +38,9 @@ class check extends Command
      */
     public function handle()
     {
-        //
-        //Log:info('test');
-        //TimeController::start();
-        $result = DB::table('system_users')->where('id',2)->update(['sex'=>5]);
-        dump($result);
+        // Log::info('开始执行');
+        // $result=DB::reconnect('sqlsrv')->table('system_users')->where('id',2)->update(['sex'=> 7]);
+        // Log::info('执行成功');
+        
     }
 }
