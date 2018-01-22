@@ -7,7 +7,6 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Psy\Command\Command;
 use Log;
 use DB;
-use Log;
 class Kernel extends ConsoleKernel
 {
     /**
