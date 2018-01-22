@@ -61,7 +61,8 @@ class LoginController extends Controller
         // $this->tongbuOArole();
         // $this->tongbuHRrole();
         // $this->tongbuERProle();
-        DB::reconnect('pm')->select('select * from relationship');
+        $result=DB::reconnect('sqlsrv')->table('system_users')->where('id',2)->update(['sex'=> 9]);
+        phpinfo();
     }
 
      //把HR系统职位信息统计进入本地过渡表    部门职位等

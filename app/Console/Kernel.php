@@ -6,7 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Psy\Command\Command;
 use DB;
-
+use Log;
 class Kernel extends ConsoleKernel
 {
     /**
@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        Commands\check::class,
+        Commands\order::class,
     ];
 
     /**
@@ -27,17 +27,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
-
-        /*$schedule->command('inspire')
-            ->hourly();*/
-
-        $schedule->command('check:make')->everyMinute();
-
-        /*$schedule->call(function () {
-            // 在每个礼拜一的 13:00 运行一次...
-        })->weekly()->mondays()->at('14:53');*/
+        Log::info('开始执行');
+        try{
+            
+            $result=DB::reconnect('sqlsrv')->table("system_users");
+            Log::info($result);
+        }catch (Exception $e){
+            Log::info($e);
+        }
+       
+        Log::info('执行成功');
     }
 
     /**

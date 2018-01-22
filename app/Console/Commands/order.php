@@ -38,8 +38,9 @@ class order extends Command
      */
     public function handle()
     {
-         $result=DB::reconnect('pm')->table('system_users')->where('id',2)->update(['sex'=> 9]);
-        //
-        //Log::info('test');
+        // Log::info('开始执行');
+        // $result=DB::reconnect('sqlsrv')->table('system_users')->where('id',2)->update(['sex'=> 7]);
+        // Log::info('执行成功');
+        
     }
 }
