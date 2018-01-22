@@ -68,7 +68,7 @@ return [
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
-            'host' => env('DB_HOST', '王琦\SQLEXPRESS'),
+            'host' => env('DB_HOST', 'wangqihang\SQLEXPRESS'),
             'database' => env('DB_DATABASE', 'firstname'),
             'username' => env('DB_USERNAME', 'sa'),
             'password' => env('DB_PASSWORD', '123456'),
@@ -88,7 +88,7 @@ return [
 
         'pm' => [
             'driver' => 'sqlsrv',
-            'host' => env('DB_HOST', '王琦\SQLEXPRESS'),
+            'host' => env('DB_HOST', 'wangiqhang\SQLEXPRESS'),
             'database' => env('DB_DATABASE3', 'people_mgr'),
             'username' => env('DB_USERNAME', 'sa'),
             'password' => env('DB_PASSWORD', '123456'),

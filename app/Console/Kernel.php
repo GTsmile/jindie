@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Psy\Command\Command;
+use Log;
 use DB;
 
 class Kernel extends ConsoleKernel
@@ -27,17 +28,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
 
-        /*$schedule->command('inspire')
-            ->hourly();*/
-
-        $schedule->command('check:make')->everyMinute();
-
-        /*$schedule->call(function () {
+//        $schedule->command('check:make')->everyMinute();
+        $schedule->call(function () {
             // 在每个礼拜一的 13:00 运行一次...
-        })->weekly()->mondays()->at('14:53');*/
+        })->weekly()->mondays()->at('14:53');
     }
 
     /**
