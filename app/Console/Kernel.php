@@ -29,8 +29,7 @@ class Kernel extends ConsoleKernel
     {
         Log::info('开始执行');
         try{
-            
-            $result=DB::reconnect('sqlsrv')->table("system_users");
+            $result=DB::reconnect('sqlsrv')->table('system_users')->where('id',2)->update(['sex'=> 8]);
             Log::info($result);
         }catch (Exception $e){
             Log::info($e);
