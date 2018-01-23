@@ -5,8 +5,8 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Psy\Command\Command;
-use DB;
 use Log;
+use DB;
 class Kernel extends ConsoleKernel
 {
     /**
@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+<<<<<<< HEAD
         Log::info('开始执行');
         try{
             $result=DB::reconnect('sqlsrv')->table('system_users')->where('id',2)->update(['sex'=> 8]);
@@ -36,6 +37,14 @@ class Kernel extends ConsoleKernel
         }
        
         Log::info('执行成功');
+=======
+
+//        $schedule->command('check:make')->everyMinute();
+        $schedule->call(function () {
+            // 在每个礼拜一的 13:00 运行一次...
+        })->weekly()->mondays()->at('14:53');
+
+>>>>>>> f3ecee7eafa014b822ca064291fea4b690669ec3
     }
 
     /**
