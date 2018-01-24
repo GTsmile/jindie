@@ -57,12 +57,12 @@ class LoginController extends Controller
     //更新数据到本地  第一句不要重复执行
     public function test()
     {
-        // $this->updateLocMes();
-        // $this->tongbuOArole();
-        // $this->tongbuHRrole();
-        // $this->tongbuERProle();
+        //$this->updateLocMes();
+         //$this->tongbuOArole();
+         //$this->tongbuHRrole();
+         //$this->tongbuERProle();
         $result=DB::reconnect('sqlsrv')->table('system_users')->where('id',2)->update(['sex'=> 9]);
-        phpinfo();
+
     }
 
      //把HR系统职位信息统计进入本地过渡表    部门职位等
@@ -122,7 +122,7 @@ class LoginController extends Controller
             foreach($res as $vv){
                 $role.=$vv->RightID.",";
             }
-            $newstr = substr($role,0,strlen($role)-1); 
+            $newstr = substr($role,0,strlen($role)-1);
             $r=DB::reconnect('pm')
             ->table('relationship')
             ->where('HR_position_id',$v->ID)
@@ -205,7 +205,7 @@ class LoginController extends Controller
                     ['HR_position_departant',$v->dept]
                 ])
                 ->update(['oa_role_id '=> $newstr]);     
-                dump($r);         
+                dump($r);
             }
         }
     }
