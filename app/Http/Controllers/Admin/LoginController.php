@@ -275,7 +275,6 @@ class LoginController extends Controller
             ->select('RightID')
             ->get()->toArray();    //遍历每个职位，得到职位下的所有用户
             $temp=explode(',',$v->hr_role_id);//再将拆开的数组重新组装 
-           
             if($userOfPosition){
                 $arr=[];
                 foreach($userOfPosition as $vvv){    //转换为数组方便对比
@@ -337,6 +336,7 @@ class LoginController extends Controller
                 foreach($roleOfUser as $vv){
                     $roleOfUser=DB::reconnect('erp')->table('t_GroupAccess')
                     ->where([
+
                         ['FUserID',$vv->FUserID]
                     ])
                     ->select('FGroupID')
