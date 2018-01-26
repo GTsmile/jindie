@@ -25,6 +25,7 @@ Route::post('/logout','Admin\LoginController@logout');
 Route::get('/login', function () {
     return view('login');
 });
+
 Route::group(['middleware' => 'login.check'],function (){
     Route::get('/', function () {
         return view('index');

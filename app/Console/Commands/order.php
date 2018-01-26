@@ -38,70 +38,72 @@ class order extends Command
      */
     public function handle()
     {
-        Log::info('开始执行同步');
-        //try{
-            $this->tongbuOA();
-            $this->tongbuHR();
-            $this->tongbuERP();
-            Log::info('同步成功');
-        /*}catch(\Exception $e){
-            Log::info('異常。同步失敗');
-        }*/
+        Log::info(date('y-m-d h:i:',time()).'开始执行同步');
+        try{
+             $this->tongbuOA();
+             $this->tongbuHR();
+             $this->tongbuERP();
+            Log::info(date('y-m-d h:i:',time()).'同步成功');
+        }catch(\Exception $e){
+            Log::info(date('y-m-d h:i:',time()).'異常。同步失敗');
+        }
     }
 
     public function tongbuOA(){
         $allPosition=DB::reconnect('pm')->table('relationship')
-        ->select('HR_position_id','oa_role_id','HR_position_name','HR_position_departant')
-        ->get();    //得到本系统所有职位信息
-        
+            ->select('HR_position_id','oa_role_id','HR_position_name','HR_position_departant')
+            ->get();    //得到本系统所有职位信息
+
         foreach($allPosition as $v){
             $userOfPosition=DB::reconnect('sqlsrv')->table('system_position')
-            ->join('system_positionmember','system_position.id','=','system_positionmember.position_id')
-            ->join('system_depts','system_position.dept_id','=','system_depts.id')
-            ->where([
-                ['system_position.name',$v->HR_position_name],
-                ['system_depts.name',$v->HR_position_departant]
-            ])
-            ->select('system_positionmember.user_id')
-            ->get();    //遍历每个职位，得到职位下的所有用户
-            $temp=explode(',',$v->oa_role_id);//再将拆开的数组重新组装 
-           
+                ->join('system_positionmember','system_position.id','=','system_positionmember.position_id')
+                ->join('system_depts','system_position.dept_id','=','system_depts.id')
+                ->where([
+                    ['system_position.name',$v->HR_position_name],
+                    ['system_depts.name',$v->HR_position_departant]
+                ])
+                ->select('system_positionmember.user_id')
+                ->get();    //遍历每个职位，得到职位下的所有用户
+            $temp=explode(',',$v->oa_role_id);//再将拆开的数组重新组装
+
             if($userOfPosition){
                 foreach($userOfPosition as $vv){
                     $roleOfUser=DB::reconnect('sqlsrv')->table('system_user_role')
-                    ->where([
-                        ['user_id',$vv->user_id]
-                    ])
-                    ->select('role_id')
-                    ->get()->toArray(); //获取用户的角色信息
+                        ->where([
+                            ['user_id',$vv->user_id]
+                        ])
+                        ->select('role_id')
+                        ->get()->toArray(); //获取用户的角色信息
                     $arr=[];
                     foreach($roleOfUser as $vvv){    //转换为数组方便对比
                         $arr[]=$vvv->role_id;
                     }
-                    $isxiangtong=array_diff($temp,$arr); //比较两个数组是否相同，原系统用户的角色 本系统规定角色 
+                    $isxiangtong=array_diff($temp,$arr); //比较两个数组是否相同，原系统用户的角色 本系统规定角色
                     if($isxiangtong!=null){
                         echo "不同";
                         $deleteRes=DB::reconnect('sqlsrv')->table('system_user_role')
-                        ->where('user_id',$vv->user_id)
-                        ->delete();
+                            ->where('user_id',$vv->user_id)
+                            ->delete();
                         dump($deleteRes);
                         $insertArr=[];
-                        foreach($temp as $t){
-                            $insert=[
-                                'user_id' => $vv->user_id,
-                                'role_id' => $t
-                            ];
-                            $insertArr[]=$insert;
+                        if($v->oa_role_id!=""){
+                            foreach($temp as $t){
+                                $insert=[
+                                    'user_id' => $vv->user_id,
+                                    'role_id' => $t
+                                ];
+                                $insertArr[]=$insert;
+                            }
+                            $insertRes=DB::reconnect('sqlsrv')->table('system_user_role')
+                                ->where('user_id',$vv->user_id)
+                                ->insert($insertArr);
+                            dump($insertRes);
                         }
-                        $insertRes=DB::reconnect('sqlsrv')->table('system_user_role')
-                        ->where('user_id',$vv->user_id)
-                        ->insert($insertArr);
-                        dump($insertRes);
                     }else{
                         echo "相同";
                     }
                     echo "<br/>";
-                }     
+                }
             }
         }
     }
