@@ -16,5 +16,6 @@ class TestController extends Controller
         dump($result);*/
         $tb = new LoginController();
         $result = $tb->tongbuHR();
+        dump($result);
     }
 }

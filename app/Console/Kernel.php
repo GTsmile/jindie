@@ -27,15 +27,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        Log::info('开始执行');
+        /*Log::info('开始执行');
         try{
             $result=DB::reconnect('sqlsrv')->table('system_users')->where('id',2)->update(['sex'=> 8]);
             Log::info($result);
         }catch (Exception $e){
             Log::info($e);
         }
-       
-        Log::info('执行成功');
+        Log::info('执行成功');*/
+        $schedule->command('order')->everyMinute();
 
     }
 
