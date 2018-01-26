@@ -41,4 +41,4 @@ Route::get('/index/captcha/{tmp}', 'Admin\LoginController@captcha');
 
 //测试
 Route::get('/test','Admin\LoginController@test');
-Route::get('/start','Admin\TimeController@start');
+Route::get('/start','Admin\TestController@start');
