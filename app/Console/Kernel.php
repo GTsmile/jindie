@@ -35,7 +35,11 @@ class Kernel extends ConsoleKernel
             Log::info($e);
         }
         Log::info('执行成功');*/
-        $schedule->command('order')->everyMinute();
+
+        /*$schedule->command('inspire')
+            ->hourly();
+        $schedule->command('order:make')->everyMinute();*/
+
 
     }
 
