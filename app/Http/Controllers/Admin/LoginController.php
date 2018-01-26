@@ -204,7 +204,6 @@ class LoginController extends Controller
             }
         }
     }
-
     public function tongbuOA(){
         $allPosition=DB::reconnect('pm')->table('relationship')
         ->select('HR_position_id','oa_role_id','HR_position_name','HR_position_departant')

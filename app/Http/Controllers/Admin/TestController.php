@@ -15,7 +15,7 @@ class TestController extends Controller
         /*$result = DB::table('system_users')->select('sex')->where('id',2)->get();
         dump($result);*/
         $tb = new LoginController();
-        $result = $tb->tongbuHR();
+        $result = $tb->tongbuERP();
         dump($result);
     }
 }
