@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('order:make')->twiceDaily(env("TIMING_EXECUTION"));
+        $schedule->command('order:make')->everyMinute();
     }
 
     /**

@@ -38,17 +38,14 @@ class order extends Command
      */
     public function handle()
     {
-        Log::info('开始执行同步');
-        DB::beginTransaction();
+        Log::info(date('y-m-d h:i:',time()).'开始执行同步');
         try{
-            $this->tongbuOA();
-            $this->tongbuHR();
-            $this->tongbuERP();
-            Log::info('同步成功');
-            DB::commit();   
+            // $this->tongbuOA();
+            // $this->tongbuHR();
+            // $this->tongbuERP();
+            Log::info(date('y-m-d h:i:',time()).'同步成功');
         }catch(\Exception $e){
-            DB::rollBack();
-            Log::info('異常。同步失敗');
+            Log::info(date('y-m-d h:i:',time()).'異常。同步失敗');
         }
     }
 
