@@ -263,6 +263,16 @@
             $('.remind-captcha').html('')
         }
     });
+    $('#name').bind("keypress",function(event){
+        if(event.keyCode==13){
+            submitForm();
+        }
+    });
+    $('#password').bind("keypress",function(event){
+        if(event.keyCode==13){
+            submitForm();
+        }
+    });
     var errCount=0;
     function submitForm() {
         var user = $("#name").val();

@@ -122,9 +122,14 @@ class IndexController extends Controller{
             $data[4]=$v->department;
             $cellData[]=$data;
         }
-        Excel::create('用户信息',function($excel) use ($cellData){
-            $excel->sheet('用户信息', function($sheet) use ($cellData){
+        $fw='A1:G'.count($cellData);
+        Excel::create('用户信息',function($excel) use ($cellData,$fw){
+            $f=$fw;
+            $excel->sheet('用户信息', function($sheet) use ($cellData,$f){
                 $sheet->rows($cellData);
+                $sheet->cells($f,function($cells) {
+                    $cells->setAlignment('left');
+                });
             });
         })->export('xls');
     }
@@ -228,18 +233,20 @@ class IndexController extends Controller{
             $data[3]=$v->hr_role_id;
             $data[4]=$v->erp_role_id;
             $data[5]=$v->scm_role_id;
-            $data[5]=$v->plm_role_id;
+            $data[6]=$v->plm_role_id;
             $cellData[]=$data;
         }
-        Excel::create('职位权限信息',function($excel) use ($cellData){
-            $excel->sheet('职位权限信息', function($sheet) use ($cellData){
+        $fw='A1:G'.count($cellData);
+        // dump($fw);
+        Excel::create('职位权限信息',function($excel) use ($cellData,$fw){
+            $f=$fw;
+            $excel->sheet('职位权限信息', function($sheet) use ($cellData,$f){
                 $sheet->rows($cellData);
-                $sheet->cells('A1', function($cells) {
+                $sheet->cells($f,function($cells) {
                     $cells->setAlignment('left');
                 });
             });
         })->export('xlsx');
-       
     }
     //获取各个系统不同角色信息（权限信息）
     public function getRole(){
