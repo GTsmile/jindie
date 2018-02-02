@@ -15,6 +15,9 @@
             <el-form-item>
                 <el-button type="primary" icon="search" @click="getPositionUnit(currentPage,pageSize,inputSearch,orderName,order)">查询</el-button>
             </el-form-item>
+            <el-form-item style="float:right">
+                <el-button type="primary"  @click="exportAuth(inputSearch,orderName,order)">导出</el-button>
+            </el-form-item>
         </el-form>
 		<el-table @sort-change="sortChange"
             :data="tableData"
@@ -273,6 +276,9 @@ import Axios from 'axios'
                     console.log(response);
                 });
             })
+        },
+        exportAuth : function($inputSearch,$orderName,$order){
+            window.location.href="/exportAuth?where="+$inputSearch+"&orderName="+$orderName+"&order"+$order;
         },
         sortChange({ column, prop, order }){
           var vue=this;

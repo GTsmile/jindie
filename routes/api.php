@@ -27,7 +27,7 @@ Route::group(['middleware' => 'login.check'],function (){
 
     Route::post('/getRole','Api\IndexController@getRole');
     Route::any('/getPositionUnit','Api\IndexController@getPositionUnit');
-
+    Route::get('/exportAuth','Api\IndexController@exportAuth');
     Route::any('/updateRole','Api\IndexController@updateRole');
 });
 

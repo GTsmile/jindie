@@ -192,6 +192,55 @@ class IndexController extends Controller{
         ]);
     }
 
+     //获取权限模块所有职位信息
+     public function exportAuth(Request $request){
+        $where = $request->input('where');
+        $orderName=$request->input('orderName');
+        $order=$request->input('order');
+
+        if($orderName==""||$order==""){
+            $orderName="HR_position_name";
+            $order="asc";
+        }else if($order=="descending"){
+            $order="desc";
+        }else if($order=="ascending"){
+            $order="asc";
+        }
+
+        if($where!=""){
+            $select_row  =DB::reconnect('pm')->table('relationship')
+            ->select('HR_position_id as id', 'HR_position_name', 'HR_position_departant', 'oa_role_id', 'erp_role_id', 'crm_role_id', 'scm_role_id', 'plm_role_id', 'hr_role_id')
+            ->where('HR_position_name','like','%'.$where.'%')
+            ->orWhere('HR_position_departant','like','%'.$where.'%')
+            ->orderBy($orderName,$order) 
+            ->get();
+        }else{
+            $select_row  =DB::reconnect('pm')->table('relationship')
+            ->select('HR_position_id as id', 'HR_position_name', 'HR_position_departant', 'oa_role_id', 'erp_role_id', 'crm_role_id', 'scm_role_id', 'plm_role_id', 'hr_role_id')
+            ->orderBy($orderName,$order)
+            ->get();
+        }
+        $cellData=[['部门','职位','OA','HR','ERP','SCM','PLM']];
+        foreach($select_row as $v){
+            $data[0]=$v->HR_position_name;
+            $data[1]=$v->HR_position_departant;
+            $data[2]=$v->oa_role_id;
+            $data[3]=$v->hr_role_id;
+            $data[4]=$v->erp_role_id;
+            $data[5]=$v->scm_role_id;
+            $data[5]=$v->plm_role_id;
+            $cellData[]=$data;
+        }
+        Excel::create('职位权限信息',function($excel) use ($cellData){
+            $excel->sheet('职位权限信息', function($sheet) use ($cellData){
+                $sheet->rows($cellData);
+                $sheet->cells('A1', function($cells) {
+                    $cells->setAlignment('left');
+                });
+            });
+        })->export('xlsx');
+       
+    }
     //获取各个系统不同角色信息（权限信息）
     public function getRole(){
         //OA role
