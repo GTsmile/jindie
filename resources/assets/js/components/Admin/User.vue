@@ -9,7 +9,7 @@
                 <el-button type="primary" icon="search" @click="getUser(currentPage,pageSize,inputSearch,orderName,order)">查询</el-button>
             </el-form-item>
             <el-form-item style="float:right">
-                <el-button type="primary"  @click="getUser(currentPage,pageSize,inputSearch,orderName,order)">导出</el-button>
+                <el-button type="primary"  @click="exportUser(inputSearch,orderName,order)">导出</el-button>
             </el-form-item>
         </el-form>
 		  <el-table :data="tableData" stripe style="width: 100%" 
@@ -92,6 +92,9 @@ import Axios from 'axios'
                     console.log(response);
                 });
             })
+        },
+        exportUser: function($inputSearch,$orderName,$order) {
+           window.location.href="/exportUser?where="+$inputSearch+"&orderName="+$orderName+"&order"+$order;
         },
         sortChange({ column, prop, order }){
           var vue=this;

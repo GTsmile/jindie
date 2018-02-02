@@ -6,6 +6,7 @@ use DB;
 use Illuminate\Http\Request;
 use Session;
 use Log;
+use Excel;
 class IndexController extends Controller{
     //得到用户模块所有用户信息（OA系统）
     public function getUser(Request $request){
@@ -73,6 +74,59 @@ class IndexController extends Controller{
             'select_row' => $select_row,
             'userCount' => $userCount
         ]);
+    }
+
+     //得到用户模块所有用户信息（OA系统）
+     public function exportUser(Request $request){
+        $where=$request->input('where');
+        $orderName=$request->input('orderName');
+        $order=$request->input('order');
+
+        if($orderName==""||$order==""){
+            $orderName="name";
+            $order="asc";
+        }else if($order=="descending"){
+            $order="desc";
+        }else if($order=="ascending"){
+            $order="asc";
+        }
+        
+        if($where!=""){
+            $orderName=$this->positionNameCov($orderName);
+            $select_row=DB::reconnect('sqlsrv')->table('system_users')
+            ->join('system_positionmember','system_positionmember.user_id','=','system_users.id')
+            ->join('system_position','system_positionmember.Position_id','=','system_position.id')
+            ->join('system_depts','system_depts.id','=','system_users.dept_id')
+            ->select('system_users.username as name', 'system_position.name as position', 'system_depts.name as department','system_users.birthday as birthday','system_users.mobile as mobile')
+            ->orderBy($orderName,$order)
+            ->where('system_users.username','like','%'.$where.'%')
+            ->orWhere('system_position.name','like','%'.$where.'%')
+            ->orWhere('system_depts.name','like','%'.$where.'%')
+            ->get()->toArray();
+        }else{
+            $select_row=DB::reconnect('sqlsrv')->table('system_users')
+            ->join('system_positionmember','system_positionmember.user_id','=','system_users.id')
+            ->join('system_position','system_positionmember.Position_id','=','system_position.id')
+            ->join('system_depts','system_depts.id','=','system_users.dept_id')
+            ->select('system_users.username as name', 'system_position.name as position', 'system_depts.name as department','system_users.birthday as birthday','system_users.mobile as mobile')
+            ->orderBy($orderName,$order)
+            ->get()->toArray();
+        }
+
+        $cellData=[['姓名','手机号','生日','职位','部门']];
+        foreach($select_row as $v){
+            $data[0]=$v->name;
+            $data[1]=$v->mobile;
+            $data[2]=$v->birthday;
+            $data[3]=$v->position;
+            $data[4]=$v->department;
+            $cellData[]=$data;
+        }
+        Excel::create('用户信息',function($excel) use ($cellData){
+            $excel->sheet('用户信息', function($sheet) use ($cellData){
+                $sheet->rows($cellData);
+            });
+        })->export('xls');
     }
 
     public function positionNameCov($Name){

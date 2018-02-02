@@ -22,7 +22,7 @@ Route::group(['middleware' => 'login.check'],function (){
     Route::get('/getUser','Api\IndexController@getUser');
 
     Route::post('/getUser','Api\IndexController@getUser');
-
+    Route::get('/exportUser','Api\IndexController@exportUser');
     Route::get('/getRole','Api\IndexController@getRole');
 
     Route::post('/getRole','Api\IndexController@getRole');
