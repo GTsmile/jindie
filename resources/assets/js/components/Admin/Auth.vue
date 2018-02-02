@@ -13,26 +13,30 @@
                 <el-input  placeholder="请输入....." v-model="inputSearch"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" icon="search" @click="getPositionUnit(currentPage,pageSize,inputSearch)">查询</el-button>
+                <el-button type="primary" icon="search" @click="getPositionUnit(currentPage,pageSize,inputSearch,orderName,order)">查询</el-button>
             </el-form-item>
         </el-form>
-		<el-table :default-sort = "{prop: 'date', order: 'descending'}"
+		<el-table @sort-change="sortChange"
             :data="tableData"
             style="width: 100%"
             @expand="handleCurrentc()">
             <el-table-column
-            label="部门">
+            label="部门" 
+            prop="HR_position_departant"
+            sortable='custom'>
             <template slot-scope="scope">
-                <span>{{ scope.row.department }}</span>
+                <span>{{ scope.row.HR_position_departant }}</span>
             </template>
             </el-table-column>
             <el-table-column
-            label="职位">
+            label="职位" 
+            prop="HR_position_name"
+            sortable='custom'>
             <template slot-scope="scope">
                 <el-popover trigger="hover" placement="top">
-                <p :data="scope.row.id">职位: {{ scope.row.position }}</p>
+                <p :data="scope.row.id">职位: {{ scope.row.HR_position_name }}</p>
                 <div slot="reference" class="name-wrapper">
-                    <el-tag size="medium">{{ scope.row.position }}</el-tag>
+                    <el-tag size="medium">{{ scope.row.HR_position_name }}</el-tag>
                 </div>
                 </el-popover>
             </template>
@@ -143,6 +147,8 @@ import Axios from 'axios'
         centerDialogVisible: false, //是否弹出模态框
         currentPage: 1, //当前页（分页）
         pageSize: 10,   //每页的大小
+        orderName: "",
+        order: "",
         total:0,      //分页总条数
         roleOA:[],      //存储OA系统的角色数据
         roleHR:[],
@@ -174,11 +180,11 @@ import Axios from 'axios'
         },
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
-            this.getPositionUnit(this.currentPage,val,this.inputSearch); 
+            this.getPositionUnit(this.currentPage,val,this.inputSearch,this.orderName,this.order); 
         },
         handleCurrentChange(val) {
           console.log(`当前页: ${val}`);
-          this.getPositionUnit(val,this.pageSize,this.inputSearch);
+          this.getPositionUnit(val,this.pageSize,this.inputSearch,this.orderName,this.order);
           this.currentPage=val;
         },
         handleCurrentc(row, expanded){
@@ -212,7 +218,7 @@ import Axios from 'axios'
                 })
                 .then(function (response) {
                     if(response.data=="true"){
-                        vue.getPositionUnit(vue.currentPage,vue.pageSize);
+                        vue.getPositionUnit(vue.currentPage,vue.pageSize,vue.inputSearch,vue.orderName,vue.order);
                     }
                 })
                 .catch(function (response) {
@@ -249,13 +255,15 @@ import Axios from 'axios'
                 });
             })
         },
-        getPositionUnit: function($currentPage,$pageSize,$inputSearch) {
+        getPositionUnit: function($currentPage,$pageSize,$inputSearch,$orderName,$order) {
             var vue=this;
             this.$nextTick(function () {
                 axios.post('/getPositionUnit', {
                     'currentPage': $currentPage,
                     'pageSize': $pageSize,
-                    'where': $inputSearch
+                    'where': $inputSearch,
+                    'orderName' : $orderName,
+                    'order' : $order
                 })
                 .then(function (response) {
                     vue.tableData=response.data.select_row;
@@ -266,6 +274,27 @@ import Axios from 'axios'
                 });
             })
         },
+        sortChange({ column, prop, order }){
+          var vue=this;
+          vue.orderName=prop;
+          vue.order=order;
+            this.$nextTick(function () {
+                axios.post('/getPositionUnit', {
+                  'currentPage': vue.currentPage,
+                  'pageSize': vue.pageSize,
+                  'where' : vue.inputSearch,
+                  'orderName' : prop,
+                  'order' : order
+                })
+                .then(function (response) {
+                    vue.tableData=response.data.select_row;
+                    vue.total=response.data.positionCount;
+                })
+                .catch(function (response) {
+                    console.log(response);
+                });
+            })
+        }
       },
     }
 </script>
@@ -291,6 +320,23 @@ vertical-align: bottom;
 <style>
 .el-dialog--small{
     width: auto;
+}
+.el-dialog{
+    width:800px;
+    top:10%;
+}
+.el-dialog__body{
+    height: 400px;
+}
+.el-transfer-panel__list.is-filterable{
+    height: 290px;
+}
+.el-dialog__wrapper{
+    overflow: hidden;
+}
+.el-transfer-panel{
+    width:350px;
+    height: 400px;
 }
 .block{
   padding-top: 10px;

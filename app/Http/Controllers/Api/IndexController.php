@@ -13,15 +13,30 @@ class IndexController extends Controller{
         $pageSize=$request->input('pageSize');
         $offset=($currentPage-1)*$pageSize;
         $where=$request->input('where');
+        $orderName=$request->input('orderName');
+        $order=$request->input('order');
+
+        if($orderName==""||$order==""){
+            $orderName="name";
+            $order="asc";
+        }else if($order=="descending"){
+            $order="desc";
+        }else if($order=="ascending"){
+            $order="asc";
+        }
+        
         if($where!=""){
+            $orderName=$this->positionNameCov($orderName);
+
             $select_row=DB::reconnect('sqlsrv')->table('system_users')
             ->join('system_positionmember','system_positionmember.user_id','=','system_users.id')
             ->join('system_position','system_positionmember.Position_id','=','system_position.id')
             ->join('system_depts','system_depts.id','=','system_users.dept_id')
             ->select('system_users.username as name', 'system_position.name as position', 'system_depts.name as department')
-            ->where('system_users.username',$where)
-            ->orWhere('system_position.name',$where)
-            ->orWhere('system_depts.name',$where)
+            ->orderBy($orderName,$order)
+            ->where('system_users.username','like','%'.$where.'%')
+            ->orWhere('system_position.name','like','%'.$where.'%')
+            ->orWhere('system_depts.name','like','%'.$where.'%')
             ->offset($offset)
             ->limit($pageSize)
             ->get();
@@ -31,9 +46,9 @@ class IndexController extends Controller{
             ->join('system_position','system_positionmember.Position_id','=','system_position.id')
             ->join('system_depts','system_depts.id','=','system_users.dept_id')
             ->select('system_users.username as name', 'system_position.name as position', 'system_depts.name as department')
-            ->where('system_users.username',$where)
-            ->orWhere('system_position.name',$where)
-            ->orWhere('system_depts.name',$where)
+            ->where('system_users.username','like','%'.$where.'%')
+            ->orWhere('system_position.name','like','%'.$where.'%')
+            ->orWhere('system_depts.name','like','%'.$where.'%')
             ->count();
         }else{
             $select_row=DB::reconnect('sqlsrv')->table('system_users')
@@ -41,6 +56,7 @@ class IndexController extends Controller{
             ->join('system_position','system_positionmember.Position_id','=','system_position.id')
             ->join('system_depts','system_depts.id','=','system_users.dept_id')
             ->select('system_users.username as name', 'system_position.name as position', 'system_depts.name as department')
+            ->orderBy($orderName,$order)
             ->offset($offset)
             ->limit($pageSize)
             ->get();
@@ -59,8 +75,14 @@ class IndexController extends Controller{
         ]);
     }
 
-    public function updateLocUserRole(){
-            
+    public function positionNameCov($Name){
+        if($Name=="name"){
+            return "system_users.username";
+        }else if($Name=="position"){
+            return "system_position.name";
+        }else if($Name=="department"){
+            return "system_depts.name";
+        }
     }
 
     //获取权限模块所有职位信息
@@ -68,19 +90,32 @@ class IndexController extends Controller{
         $currentPage=$request->input('currentPage');
         $pageSize=$request->input('pageSize');
         $where = $request->input('where');
+        $orderName=$request->input('orderName');
+        $order=$request->input('order');
 
+        if($orderName==""||$order==""){
+            $orderName="HR_position_name";
+            $order="asc";
+        }else if($order=="descending"){
+            $order="desc";
+        }else if($order=="ascending"){
+            $order="asc";
+        }
         $offset=($currentPage-1)*$pageSize;
         if($where!=""){
             $select_row  =DB::reconnect('pm')->table('relationship')
-            ->select('HR_position_id as id', 'HR_position_name as position', 'HR_position_departant as department', 'oa_role_id', 'erp_role_id', 'crm_role_id', 'scm_role_id', 'plm_role_id', 'hr_role_id')
-            ->where('HR_position_name',$where)
+            ->select('HR_position_id as id', 'HR_position_name', 'HR_position_departant', 'oa_role_id', 'erp_role_id', 'crm_role_id', 'scm_role_id', 'plm_role_id', 'hr_role_id')
+            ->where('HR_position_name','like','%'.$where.'%')
+            ->orWhere('HR_position_departant','like','%'.$where.'%')
+            ->orderBy($orderName,$order) 
             ->offset($offset)
             ->limit($pageSize)
             ->get();
-            $positionCount  =DB::reconnect('pm')->table('relationship')->where('HR_position_name',$where)->count();
+            $positionCount  =DB::reconnect('pm')->table('relationship')->where('HR_position_name','like','%'.$where.'%')->orWhere('HR_position_departant','like','%'.$where.'%')->count();
         }else{
             $select_row  =DB::reconnect('pm')->table('relationship')
-            ->select('HR_position_id as id', 'HR_position_name as position', 'HR_position_departant as department', 'oa_role_id', 'erp_role_id', 'crm_role_id', 'scm_role_id', 'plm_role_id', 'hr_role_id')
+            ->select('HR_position_id as id', 'HR_position_name', 'HR_position_departant', 'oa_role_id', 'erp_role_id', 'crm_role_id', 'scm_role_id', 'plm_role_id', 'hr_role_id')
+            ->orderBy($orderName,$order)
             ->offset($offset)
             ->limit($pageSize)
             ->get();
